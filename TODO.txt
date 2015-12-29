@@ -1,0 +1,64 @@
+
+0) Fare tutte le classi il più possibile astratte togliendo i parametri ???
+1) SCRIPT SYSTEM 
+- creare interfacce
+- registrare funzioni
+
+2) DOPO AVER AGGIUNTO LO SCRIPT SYSTEM RIVEDERE STRUTTURA GENERALE DI NAMESPACES (sia nel codice che nello script), INTERFACCE, ECC.
+
+3) Aggiungere libreria di LOG (spdlog???)
+
+4) funzione di abort a fronte di errore FATAL
+
+5) struttura per definire/caricare scene e oggetti
+	aggiungere empty-node (solo nello script) 
+	scene-node è il nodo principale, nn ha parent e quindi nn può essere child di altri nodi
+
+
+Scripting:
+- build dello script e salvataggio opcode
+- caricare opcode + esecuzione nel loop dell'engine
+
+
+Scenemanager:
+ - carica la scena da file irrEdit/Coppercube
+ - esegue scripts
+ - gestisce interazioni
+ - salva su/carica da file lo stato
+
+
+Implementare plugin framework ???
+
+
+Come fare debug dello script dall'editor?
+
+
+
+**** LINEE GUIDA *****
+L'engine deve rimanere il più possibile slegato da qualsiasi tipologia di vg
+Sarà poi l'editor che pone i paletti alla realizzazione di una tipologia
+Gli unici elementi hardcoded saranno oggetti, luci, camere e scene assieme a quelle funzioni generali utili in qualsiasi tipologia (GUI, traduzioni, ...)
+Tutti gli elementi verranno creati utilizzando il sistema di scripting
+Il sistema di scripting avrà delle funzioni ben definite: game_start, game_end, enter_scene, leave_scene, repeatedly_execute, ...
+
+
+**** LIBRERIE UTILIZZATE *****
+Irrlicht 1.83 (http://irrlicht.sourceforge.net/)
+AngelScript 2.30.2 (http://www.angelcode.com/angelscript/)
+Boost 1.59.0 (http://www.boost.org/)
+PugiXML 1.7 (http://pugixml.org/)
+??? spdlog - 16/12/2015 (https://github.com/gabime/spdlog)
+
+
+
+
+ - Completed - 
+
+[ok] leggere file AGS con versione
+[ok] vedere dove apre finestra in Engine e aprire finestra Irrlicht in UAC
+[ok] distruttore di GFX_DRIVER
+[ok] loop di rendering
+[ok] creare struttura oggetti per caricare scena da file XML (vedi CD3D)
+[ok] Scenemanager:
+		- scarica dalla memoria
+		- mostra a video la scena

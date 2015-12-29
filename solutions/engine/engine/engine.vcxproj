@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{07152156-12FE-4A75-915E-51B748B447AC}</ProjectGuid>
+    <RootNamespace>engine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../../../common;../../../engine;$(BOOSTLIB);$(IRRLIB)/include;$(ASLIB)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WINDOWS_VERSION;USE_IRRLIB;USE_ASLIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4250</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Irrlicht.lib;angelscriptd.lib;common_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(IRRLIB)/lib/Win32-visualstudio;$(BOOSTLIB)/stage/lib;$(ASLIB)/lib;../../lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../../../common;../../../engine;$(BOOSTLIB);$(IRRLIB)/include;$(ASLIB)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WINDOWS_VERSION;USE_IRRLIB;USE_ASLIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4250</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Irrlicht.lib;angelscript.lib;common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(IRRLIB)/lib/Win32-visualstudio;$(BOOSTLIB)/stage/lib;$(ASLIB)/lib;../../lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\engine\debug\debug.h" />
+    <ClInclude Include="..\..\..\engine\device\device_helper.h" />
+    <ClInclude Include="..\..\..\engine\device\device_irr.h" />
+    <ClInclude Include="..\..\..\engine\device\gfxdefines.h" />
+    <ClInclude Include="..\..\..\engine\device\gfxdriver_irr.h" />
+    <ClInclude Include="..\..\..\engine\main\engine.h" />
+    <ClInclude Include="..\..\..\engine\main\maindefines.h" />
+    <ClInclude Include="..\..\..\engine\main\version.h" />
+    <ClInclude Include="..\..\..\engine\scene\node_camera_irr.h" />
+    <ClInclude Include="..\..\..\engine\scene\node_irr.h" />
+    <ClInclude Include="..\..\..\engine\scene\node_light_irr.h" />
+    <ClInclude Include="..\..\..\engine\scene\node_mesh_irr.h" />
+    <ClInclude Include="..\..\..\engine\scene\node_scene_irr.h" />
+    <ClInclude Include="..\..\..\engine\scene\scene_helper.h" />
+    <ClInclude Include="..\..\..\engine\scene\scene_manager_irr.h" />
+    <ClInclude Include="..\..\..\engine\script\scriptbuilder\scriptbuilder.h" />
+    <ClInclude Include="..\..\..\engine\script\scriptstdstring\scriptstdstring.h" />
+    <ClInclude Include="..\..\..\engine\script\script_as.h" />
+    <ClInclude Include="..\..\..\engine\script\script_as_camera.h" />
+    <ClInclude Include="..\..\..\engine\script\script_as_light.h" />
+    <ClInclude Include="..\..\..\engine\script\script_as_mesh.h" />
+    <ClInclude Include="..\..\..\engine\script\script_as_scene.h" />
+    <ClInclude Include="..\..\..\engine\script\script_helper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\engine\debug\debug.cpp" />
+    <ClCompile Include="..\..\..\engine\device\device_helper.cpp" />
+    <ClCompile Include="..\..\..\engine\device\device_irr.cpp" />
+    <ClCompile Include="..\..\..\engine\device\gfxdriver_irr.cpp" />
+    <ClCompile Include="..\..\..\engine\main\engine.cpp" />
+    <ClCompile Include="..\..\..\engine\main\main.cpp" />
+    <ClCompile Include="..\..\..\engine\scene\node_camera_irr.cpp" />
+    <ClCompile Include="..\..\..\engine\scene\node_irr.cpp" />
+    <ClCompile Include="..\..\..\engine\scene\node_light_irr.cpp" />
+    <ClCompile Include="..\..\..\engine\scene\node_mesh_irr.cpp" />
+    <ClCompile Include="..\..\..\engine\scene\node_scene_irr.cpp" />
+    <ClCompile Include="..\..\..\engine\scene\scene_helper.cpp" />
+    <ClCompile Include="..\..\..\engine\scene\scene_manager_irr.cpp" />
+    <ClCompile Include="..\..\..\engine\script\scriptbuilder\scriptbuilder.cpp" />
+    <ClCompile Include="..\..\..\engine\script\scriptstdstring\scriptstdstring.cpp" />
+    <ClCompile Include="..\..\..\engine\script\script_as.cpp" />
+    <ClCompile Include="..\..\..\engine\script\script_as_camera.cpp" />
+    <ClCompile Include="..\..\..\engine\script\script_as_light.cpp" />
+    <ClCompile Include="..\..\..\engine\script\script_as_mesh.cpp" />
+    <ClCompile Include="..\..\..\engine\script\script_as_scene.cpp" />
+    <ClCompile Include="..\..\..\engine\script\script_helper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\TODO.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{946b0b1b-4e6e-41e5-81b2-289bacb00a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\main">
+      <UniqueIdentifier>{b1cc7e0e-6111-4b31-9560-428232c311a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\debug">
+      <UniqueIdentifier>{c454fe69-f0ac-4256-8690-b8dfaabfb035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\debug">
+      <UniqueIdentifier>{baf58bd1-b459-41f6-b9ad-acdac593a5cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ac">
+      <UniqueIdentifier>{09ee61e0-024a-4c3c-aa9c-8ce087ca0bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\script">
+      <UniqueIdentifier>{079a7603-5be6-4c80-b722-1048e585092b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\script">
+      <UniqueIdentifier>{c36eea76-150b-49ac-9b28-9047fdf017be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\device">
+      <UniqueIdentifier>{7d07791e-c7e2-4fde-848c-fe4f81f5c29f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\device">
+      <UniqueIdentifier>{35e95ddd-6987-4b09-aadc-f29e4e89ff32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scene">
+      <UniqueIdentifier>{67375a86-7e4e-458f-858b-ad9ff356d625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scene">
+      <UniqueIdentifier>{e79312bf-7f5f-45b0-9734-cff9574a189c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\script\as_add_on">
+      <UniqueIdentifier>{09e0fadf-e192-4fcd-abd4-49e9118c8499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\script\as_add_on">
+      <UniqueIdentifier>{14281a17-7f22-4a56-8ca8-c247a099fdbc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\engine\main\engine.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\main\maindefines.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\main\version.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\debug\debug.h">
+      <Filter>Header Files\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\device\device_irr.h">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\device\gfxdefines.h">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\device\gfxdriver_irr.h">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\device\device_helper.h">
+      <Filter>Header Files\device</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\scene\scene_manager_irr.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\scene\scene_helper.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\scene\node_camera_irr.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\scene\node_light_irr.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\scene\node_mesh_irr.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\scene\node_scene_irr.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\scene\node_irr.h">
+      <Filter>Header Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\scriptbuilder\scriptbuilder.h">
+      <Filter>Header Files\script\as_add_on</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\scriptstdstring\scriptstdstring.h">
+      <Filter>Header Files\script\as_add_on</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\script_as.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\script_as_mesh.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\script_helper.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\script_as_scene.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\script_as_camera.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\script_as_light.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\engine\main\engine.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\main\main.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\debug\debug.cpp">
+      <Filter>Source Files\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\device\device_irr.cpp">
+      <Filter>Source Files\device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\device\gfxdriver_irr.cpp">
+      <Filter>Source Files\device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\device\device_helper.cpp">
+      <Filter>Source Files\device</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\scene\scene_manager_irr.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\scene\scene_helper.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\scene\node_light_irr.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\scene\node_scene_irr.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\scene\node_irr.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\scene\node_camera_irr.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\scene\node_mesh_irr.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\scriptstdstring\scriptstdstring.cpp">
+      <Filter>Source Files\script\as_add_on</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\scriptbuilder\scriptbuilder.cpp">
+      <Filter>Source Files\script\as_add_on</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\script_as.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\script_as_mesh.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\script_helper.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\script_as_scene.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\script_as_camera.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\script_as_light.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\TODO.txt" />
+  </ItemGroup>
+</Project>
