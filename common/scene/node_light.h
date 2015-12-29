@@ -21,9 +21,9 @@ namespace Common
 
 enum LIGHT_TYPE
 {
-	LIGHT_POINT,
-	LIGHT_SPOT,
-	LIGHT_DIRECTIONAL
+	LT_POINT,
+	LT_SPOT,
+	LT_DIRECTIONAL
 };
 
 
@@ -31,10 +31,9 @@ class INodeLight : public virtual INode
 {
 public:
 	//! Constructor
-	INodeLight(INode* parent, ISceneManager* mgr, const std::string& scriptname, int id = -1)
+	INodeLight(INode* parent, ISceneManager* mgr, LIGHT_TYPE type, const std::string& scriptname, int id = -1)
 		: INode(parent, mgr, id)
-		, _lType(LIGHT_DIRECTIONAL) //TODO - rivedere costruttore utile per light
-		, _direction(0,0,0)
+		, _lType(type)
 		, _color(255,255,255,255)
 		, _radius(100.f)
 		, _distance(0)
@@ -54,42 +53,30 @@ public:
 
 	//! Gets the light type.
 	virtual LIGHT_TYPE GetLightType() const { return _lType; }
-
 	//! Sets the light type.
 	virtual void SetLightType(LIGHT_TYPE type) { _lType = type; }
-
-	
-	//! Gets the light direction.
-	virtual const vector3f& GetDirection() const { return _direction; }
-
-	//! Sets the light direction.
-	virtual void SetDirection(const vector3f& direction) { _direction = direction; }
 
 
 	//! Gets the light color.
 	virtual const Color& GetColor() const { return _color; }
-
 	//! Sets the light color.
 	virtual void SetColor(const Color& color) { _color = color; }
 
 
 	//! Gets the light radius of influence.
 	virtual float GetRadius() const { return _radius; }
-
 	//! Sets the light radius of influence.
 	virtual void SetRadius(float radius) { _radius = radius; }
 	
 
 	//! Gets the light distance.
 	virtual float GetDistance() const { return _distance; }
-
 	//! Sets the light distance.
 	virtual void SetDistance(float distance) { _distance = distance; }
 
 
 	//! Gets whether this light casts shadows.
 	virtual bool GetCastShadow() const { return _castShadow; }
-
 	//! Sets whether this light casts shadows.
 	virtual void SetCastShadow(bool state) { _castShadow = state; }
 
@@ -100,7 +87,6 @@ public:
 		INode::DeserializeAttributes(xmlnode);
 		
 		_lType = (LIGHT_TYPE)xmlnode.attribute("LightType").as_int();
-		_direction.set(xmlnode.attribute("Direction").value());
 		_color.set(xmlnode.attribute("Color").value());
 		_radius = xmlnode.attribute("Radius").as_float();
 		_distance = xmlnode.attribute("Distance").as_float();
@@ -112,7 +98,6 @@ public:
 
 protected:
 	LIGHT_TYPE _lType;				//! Light type.
-	vector3f _direction;			//! Light's direction (rotation) in degrees.
 	Color _color;					//! Color of the light.
 	float _radius;					//! Light's radius of influence.
 	float _distance;				//! ???

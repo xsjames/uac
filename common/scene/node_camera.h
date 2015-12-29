@@ -24,9 +24,11 @@ class INodeCamera : public virtual INode
 {
 public:
 	//! Constructor
-	INodeCamera(INode* parent, ISceneManager* mgr, int id = -1)
+	INodeCamera(INode* parent, ISceneManager* mgr, const std::string& scriptname, int id = -1)
 		: INode(parent, mgr, id)
-	{}
+	{
+		SetScriptName(scriptname);
+	}
 
 
 	//! Destructor

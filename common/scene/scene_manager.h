@@ -51,7 +51,7 @@ public:
 	//! Create a node and add it to the manager.
 	virtual Common::INodeScene* CreateSceneNode(INode* parent, const std::string& scriptname) = 0;
 	virtual Common::INodeCamera* CreateCameraNode(INode* parent, const std::string& scriptname) = 0;
-	virtual Common::INodeLight* CreateLightNode(INode* parent, const std::string& scriptname) = 0;
+	virtual Common::INodeLight* CreateLightNode(INode* parent, LIGHT_TYPE type, const std::string& scriptname) = 0;
 	virtual Common::INodeMesh* CreateMeshNode(INode* parent, const std::string& filename, const std::string& scriptname) = 0;
 
 	//! Searches for the named scene.

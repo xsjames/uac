@@ -27,12 +27,12 @@ class NodeCameraIrr : public Common::INodeCamera, public INodeIrr
 {
 public:
 	//! Constructor
-	NodeCameraIrr(Common::INode* parent, Common::ISceneManager* mgr, int id = -1,
+	NodeCameraIrr(Common::INode* parent, Common::ISceneManager* mgr, const std::string& scriptname, int id = -1,
 		const Common::vector3f& position = Common::vector3f(0, 0, 0),
 		const Common::vector3f& rotation = Common::vector3f(0, 0, 0),
 		const Common::vector3f& scale = Common::vector3f(1.0f, 1.0f, 1.0f))
 		: Common::INode(parent, mgr, id)
-		, Common::INodeCamera(parent, mgr, id)
+		, Common::INodeCamera(parent, mgr, scriptname, id)
 		, INodeIrr()
 	{
 		//TODO: utilizzare i valori nel costruttore

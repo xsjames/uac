@@ -110,7 +110,7 @@ bool ISceneManager::_read_node(pugi::xml_node& xmlnode, INode* parent)
 	}
 	else if(strcmp(XMLNT_LIGHT, xmlnode.name()) == 0)
 	{
-		newnode = CreateLightNode(parent, "");
+		newnode = CreateLightNode(parent, LT_DIRECTIONAL, "");
 	}
 	else if(strcmp(XMLNT_MESH, xmlnode.name()) == 0)
 	{

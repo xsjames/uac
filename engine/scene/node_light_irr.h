@@ -27,12 +27,11 @@ class NodeLightIrr : public Common::INodeLight, public INodeIrr
 {
 public:
 	//! Constructor
-	NodeLightIrr(Common::INode* parent, Common::ISceneManager* mgr, const std::string& scriptname, int id = -1,
+	NodeLightIrr(Common::INode* parent, Common::ISceneManager* mgr, Common::LIGHT_TYPE type, const std::string& scriptname, int id = -1,
 			const Common::vector3f& position = Common::vector3f(0,0,0),
-			const Common::vector3f& rotation = Common::vector3f(0,0,0),
-			const Common::vector3f& scale = Common::vector3f(1.0f, 1.0f, 1.0f))
+			const Common::vector3f& rotation = Common::vector3f(0,0,0))
 		: Common::INode(parent, mgr, id)
-		, Common::INodeLight(parent, mgr, scriptname, id)
+		, Common::INodeLight(parent, mgr, type, scriptname, id)
 		, INodeIrr()
 	{
 		//TODO: utilizzare valori del costruttore

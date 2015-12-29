@@ -2,7 +2,7 @@
 //Scene scene("one");
 
 Camera camera("camera");
-Light sun("sun");
+Light sun(LT_DIRECTIONAL, "sun");
 
 Mesh world("media/world.ms3d", "world");
 Mesh tent("media/tentacle.ms3d", "tent");

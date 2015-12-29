@@ -96,7 +96,7 @@ INodeScene* SceneManagerIrr::CreateSceneNode(INode* parent, const std::string& s
 
 INodeCamera* SceneManagerIrr::CreateCameraNode(INode* parent, const std::string& scriptname)
 {
-	NodeCameraIrr* node = new NodeCameraIrr(parent, this);
+	NodeCameraIrr* node = new NodeCameraIrr(parent, this, scriptname);
 	if(!node)
 	{
 		LOG(FATAL)("Unable to add camera node!");
@@ -154,9 +154,9 @@ INodeCamera* SceneManagerIrr::CreateCameraNode(INode* parent, const std::string&
 	return node;
 }
 
-INodeLight* SceneManagerIrr::CreateLightNode(INode* parent, const std::string& scriptname)
+INodeLight* SceneManagerIrr::CreateLightNode(INode* parent, LIGHT_TYPE type, const std::string& scriptname)
 {
-	NodeLightIrr* node = new NodeLightIrr(parent, this, scriptname);
+	NodeLightIrr* node = new NodeLightIrr(parent, this, type, scriptname);
 	if(!node)
 	{
 		LOG(FATAL)("Unable to add light node!");
@@ -166,12 +166,11 @@ INodeLight* SceneManagerIrr::CreateLightNode(INode* parent, const std::string& s
 	//TODO: PROBLEMA: trovare il nodo (parent) a cui collegare la mesh
 	scene::ISceneNode* parent_irr = 0;
 
-	LIGHT_TYPE _lType = LIGHT_DIRECTIONAL;
 	float _distance = 500;
 	vector3f _direction(45.000000, 70.000000, 0.000000);
 	float _radius = 2000;
 
-	if(_lType == LIGHT_DIRECTIONAL)
+	if(type == LT_DIRECTIONAL)
 	{
 		if(_distance <= 0.f)
 			_distance = 1000.f;
@@ -197,11 +196,11 @@ INodeLight* SceneManagerIrr::CreateLightNode(INode* parent, const std::string& s
 		node_irr->getLightData().Type = video::ELT_DIRECTIONAL;
 		node_irr->setRotation(dir);
 	}
-	else if(_lType == LIGHT_SPOT)
+	else if(type == LT_SPOT)
 	{
 		return 0;
 	}
-	else // LIGHT_POINT
+	else // LT_POINT
 	{
 		return 0;
 	}

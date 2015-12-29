@@ -29,10 +29,10 @@ namespace Engine
 {
 
 //TODO lo scriptname è utile per la fase di sviluppo e debug, poi si vedrà se manternerlo
-static INodeLight* Light_Factory(const std::string& scriptname)
+static INodeLight* Light_Factory(LIGHT_TYPE type, const std::string& scriptname)
 {
 	LOG(DEBUG)("Light_Factory");
-	return g_pSceneManager->CreateLightNode(g_pSceneManager->GetRoot(), scriptname);
+	return g_pSceneManager->CreateLightNode(g_pSceneManager->GetRoot(), type, scriptname);
 }
 
 static INodeLight *Light_FactoryCopy(const INodeLight& other)
@@ -81,9 +81,15 @@ void RegisterLight(asIScriptEngine* engine)
 {
 	int r;
 
+	// register enum LIGHT_TYPE
+	r = engine->RegisterEnum("LIGHT_TYPE"); assert(r >= 0);
+	r = engine->RegisterEnumValue("LIGHT_TYPE", "LT_DIRECTIONAL", (int)LT_DIRECTIONAL); assert(r >= 0);
+	r = engine->RegisterEnumValue("LIGHT_TYPE", "LT_POINT", (int)LT_POINT); assert(r >= 0);
+
+	// register class Light
 	r = engine->RegisterObjectType("Light", 0, asOBJ_REF); assert(r >= 0);
 	// with reference types we register factores and not constructors
-	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_FACTORY, "Light @f(string &in)", asFUNCTION(Light_Factory), asCALL_CDECL); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_FACTORY, "Light @f(LIGHT_TYPE, string &in)", asFUNCTION(Light_Factory), asCALL_CDECL); assert(r >= 0);
 	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_FACTORY, "Light @f(const Light &in)", asFUNCTION(Light_FactoryCopy), asCALL_CDECL); assert(r >= 0);
 	// Registering the addref/release behaviours
 	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_ADDREF, "void f()", asFUNCTION(Light_AddRef), asCALL_CDECL_OBJLAST); assert(r >= 0);
