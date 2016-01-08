@@ -34,14 +34,15 @@ public:
 	virtual irr::scene::ISceneManager* GetSceneManagerIrr() const { return _smgr; }
 
 	//! Create a node and add it to the manager.
-	virtual Common::INodeScene* CreateSceneNode(Common::INode* parent, const std::string& scriptname);
-	virtual Common::INodeCamera* CreateCameraNode(Common::INode* parent, const std::string& scriptname);
-	virtual Common::INodeLight* CreateLightNode(Common::INode* parent, Common::LIGHT_TYPE type, const std::string& scriptname);
-	virtual Common::INodeMesh* CreateMeshNode(Common::INode* parent, const std::string& scriptname, const std::string& filename);
+	virtual Common::INodeScene* CreateSceneNode(Common::INodeScene* parent, const std::string& scriptname);
+	virtual Common::INodeCamera* CreateCameraNode(Common::INodeScene* parent, const std::string& scriptname);
+	virtual Common::INodeLight* CreateLightNode(Common::INodeScene* parent, Common::LIGHT_TYPE type, const std::string& scriptname);
+	virtual Common::INodeMesh* CreateMeshNode(Common::INodeScene* parent, const std::string& scriptname, const std::string& filename);
 
-	//TEMP
-	//! Renders the active scene.
-	virtual void Render() { _gfxdriver->Render(); }
+
+	virtual void Update() {} //TEMP
+
+	virtual void Render();
 	
 
 	//! Load scenes from file

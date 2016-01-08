@@ -31,11 +31,15 @@ public:
 	virtual const char* GetName() = 0;
 	virtual const char* GetID() = 0;
 
-	
 	virtual bool Init() = 0;
-
+	
 	virtual bool InitGFX(const DisplayMode &mode) = 0;
 	IGFXDriver* GetGFXDriver() { return _gfxdriver; }
+
+
+	//! Runs the device. Returns false if device wants to be deleted.
+	virtual bool Run() = 0;
+
 
 protected:
 	IGFXDriver* _gfxdriver;

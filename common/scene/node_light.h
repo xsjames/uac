@@ -34,7 +34,6 @@ public:
 	INodeLight(INode* parent, ISceneManager* mgr, LIGHT_TYPE type, const std::string& scriptname, int id = -1)
 		: INode(parent, mgr, id)
 		, _lType(type)
-		, _color(255,255,255,255)
 		, _radius(100.f)
 		, _distance(0)
 		, _castShadow(false)
@@ -58,9 +57,9 @@ public:
 
 
 	//! Gets the light color.
-	virtual const Color& GetColor() const { return _color; }
+	virtual const Color& GetColor() const = 0;
 	//! Sets the light color.
-	virtual void SetColor(const Color& color) { _color = color; }
+	virtual void SetColor(const Color& color) = 0;
 
 
 	//! Gets the light radius of influence.
@@ -87,7 +86,6 @@ public:
 		INode::DeserializeAttributes(xmlnode);
 		
 		_lType = (LIGHT_TYPE)xmlnode.attribute("LightType").as_int();
-		_color.set(xmlnode.attribute("Color").value());
 		_radius = xmlnode.attribute("Radius").as_float();
 		_distance = xmlnode.attribute("Distance").as_float();
 		_castShadow = xmlnode.attribute("CastShadow").as_bool();
@@ -98,7 +96,6 @@ public:
 
 protected:
 	LIGHT_TYPE _lType;				//! Light type.
-	Color _color;					//! Color of the light.
 	float _radius;					//! Light's radius of influence.
 	float _distance;				//! ???
 	bool _castShadow;				//! Whether this light casts shadows.

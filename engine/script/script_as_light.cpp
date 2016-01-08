@@ -29,13 +29,16 @@ namespace Engine
 {
 
 //TODO lo scriptname è utile per la fase di sviluppo e debug, poi si vedrà se manternerlo
-static INodeLight* Light_Factory(LIGHT_TYPE type, const std::string& scriptname)
+static INodeLight* Light_Factory(INodeScene* parent, LIGHT_TYPE type, const std::string& scriptname)
 {
 	LOG(DEBUG)("Light_Factory");
-	return g_pSceneManager->CreateLightNode(g_pSceneManager->GetRoot(), type, scriptname);
+	INodeLight* node = g_pSceneManager->CreateLightNode(parent, type, scriptname);
+	if(parent)
+		node->grab(); // add the reference of the parent in the script
+	return node;
 }
 
-static INodeLight *Light_FactoryCopy(const INodeLight& other)
+static INodeLight* Light_FactoryCopy(const INodeLight& other)
 {
 	// non viene mai chiamata ???
 	assert(1);
@@ -89,17 +92,18 @@ void RegisterLight(asIScriptEngine* engine)
 	// register class Light
 	r = engine->RegisterObjectType("Light", 0, asOBJ_REF); assert(r >= 0);
 	// with reference types we register factores and not constructors
-	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_FACTORY, "Light @f(LIGHT_TYPE, string &in)", asFUNCTION(Light_Factory), asCALL_CDECL); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_FACTORY, "Light @f(const Scene &in, LIGHT_TYPE, string &in)", asFUNCTION(Light_Factory), asCALL_CDECL); assert(r >= 0);
 	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_FACTORY, "Light @f(const Light &in)", asFUNCTION(Light_FactoryCopy), asCALL_CDECL); assert(r >= 0);
 	// Registering the addref/release behaviours
 	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_ADDREF, "void f()", asFUNCTION(Light_AddRef), asCALL_CDECL_OBJLAST); assert(r >= 0);
 	r = engine->RegisterObjectBehaviour("Light", asBEHAVE_RELEASE, "void f()", asFUNCTION(Light_Release), asCALL_CDECL_OBJLAST); assert(r >= 0);
-	// Registering the assignment behaviour
-	//r = engine->RegisterObjectMethod("Light", "Mesh &opAssign(const Mesh &in)", asMETHODPR(Oggetto, operator =, (const Oggetto&), Oggetto&), asCALL_THISCALL); assert(r >= 0);
 	// Registering the other behaviours
 	r = engine->RegisterObjectMethod("Light", "void SetPosition(float, float, float)", asFUNCTION(Light_SetPosition), asCALL_CDECL_OBJLAST); assert(r >= 0);
 	r = engine->RegisterObjectMethod("Light", "void SetDirection(float, float, float)", asFUNCTION(Light_SetDirection), asCALL_CDECL_OBJLAST); assert(r >= 0);
 	//r = engine->RegisterGlobalFunction("void Print(const Mesh &in)", asFUNCTION(Oggetto_Print), asCALL_CDECL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Light", "LIGHT_TYPE GetType()", asMETHODPR(INodeLight, GetLightType, (void) const, LIGHT_TYPE), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Light", "Color GetColor()", asMETHODPR(INodeLight, GetColor, (void) const, const Color&), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Light", "void SetColor(const Color &in)", asMETHODPR(INodeLight, SetColor, (const Color&), void), asCALL_THISCALL); assert(r >= 0);
 }
 
 

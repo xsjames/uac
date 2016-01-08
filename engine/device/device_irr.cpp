@@ -63,11 +63,12 @@ bool DeviceIrr::InitGFX(const DisplayMode& mode)
 	if(strcmp(_gfxdriver->GetID(), "IRR") == 0)
 		((GFXDriverIrr*)_gfxdriver)->InitIrr(_irr);
 
-
-	//TEMP
-	_irr->setWindowCaption(L"Hello World! - UAC Engine");
-
 	return true;
+}
+
+bool DeviceIrr::Run()
+{
+	return _irr->run();
 }
 
 } // namespace Engine

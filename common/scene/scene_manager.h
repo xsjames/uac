@@ -49,14 +49,17 @@ public:
 	virtual void RemoveAll();
 	
 	//! Create a node and add it to the manager.
-	virtual Common::INodeScene* CreateSceneNode(INode* parent, const std::string& scriptname) = 0;
-	virtual Common::INodeCamera* CreateCameraNode(INode* parent, const std::string& scriptname) = 0;
-	virtual Common::INodeLight* CreateLightNode(INode* parent, LIGHT_TYPE type, const std::string& scriptname) = 0;
-	virtual Common::INodeMesh* CreateMeshNode(INode* parent, const std::string& filename, const std::string& scriptname) = 0;
+	virtual INodeScene* CreateSceneNode(INodeScene* parent, const std::string& scriptname) = 0;
+	virtual INodeCamera* CreateCameraNode(INodeScene* parent, const std::string& scriptname) = 0;
+	virtual INodeLight* CreateLightNode(INodeScene* parent, LIGHT_TYPE type, const std::string& scriptname) = 0;
+	virtual INodeMesh* CreateMeshNode(INodeScene* parent, const std::string& filename, const std::string& scriptname) = 0;
 
 	//! Searches for the named scene.
 	//INodeScene* Find(const char* name);
 
+
+	//! Update the active scene.
+	virtual void Update() = 0;
 
 	//! Renders the active scene.
 	virtual void Render() = 0;
@@ -64,10 +67,7 @@ public:
 
 	//! Load scenes from file
 	virtual bool LoadScenesFromFile();
-
-	//TEMP - temporanea per testare il caricamento da script
-	INodeScene* GetRoot() { return _scenes[0]; }
-
+	
 
 protected:
 	INodeScene* _current;				// Currently active scene
@@ -79,7 +79,7 @@ protected:
 
 	//TEMP
 	int _node_depth;
-	bool _read_node(pugi::xml_node& xmlnode, INode* parent = 0);
+	bool _read_node(pugi::xml_node& xmlnode, INodeScene* parent = 0);
 
 
 

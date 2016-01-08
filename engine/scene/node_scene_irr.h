@@ -34,6 +34,7 @@ public:
 		: Common::INode(parent, mgr, id)
 		, Common::INodeScene(parent, mgr, scriptname, id)
 		, INodeIrr()
+		, _ambientLight(255, 255, 255, 255)
 	{
 		//TODO: utilizzare valori del costruttore
 
@@ -45,6 +46,25 @@ public:
 	{
 		LOG(DEBUG)("DELETE  Scene (%s)", _sName.c_str());
 	}
+
+
+	//! Gets the ambient light color.
+	virtual const Common::Color& GetAmbientLight() const { return _ambientLight; }
+	//! Sets the ambient light color.
+	virtual void SetAmbientLight(const Common::Color& color)
+	{
+		LOG(DEBUG)("Scene_SetAmbientLight (%s)", GetScriptName());
+		_ambientLight = color;
+
+		if(IsActive())
+		{
+			GetNodeIrr()->getSceneManager()->setAmbientLight(irr::video::SColor(255, color.r, color.g, color.b));
+		}
+	}
+
+
+protected:
+	Common::Color _ambientLight;			//! The light that doesn't come from any particular direction. All the objects in the scene will be lit up by the ambient light.
 };
 
 

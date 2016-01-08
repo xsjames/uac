@@ -56,7 +56,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Irrlicht.lib;angelscriptd.lib;common_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;Irrlicht.lib;angelscriptd.lib;common_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(IRRLIB)/lib/Win32-visualstudio;$(BOOSTLIB)/stage/lib;$(ASLIB)/lib;../../lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -76,7 +76,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Irrlicht.lib;angelscript.lib;common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;Irrlicht.lib;angelscript.lib;common.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(IRRLIB)/lib/Win32-visualstudio;$(BOOSTLIB)/stage/lib;$(ASLIB)/lib;../../lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -100,6 +100,8 @@
     <ClInclude Include="..\..\..\engine\script\scriptstdstring\scriptstdstring.h" />
     <ClInclude Include="..\..\..\engine\script\script_as.h" />
     <ClInclude Include="..\..\..\engine\script\script_as_camera.h" />
+    <ClInclude Include="..\..\..\engine\script\script_as_color.h" />
+    <ClInclude Include="..\..\..\engine\script\script_as_global.h" />
     <ClInclude Include="..\..\..\engine\script\script_as_light.h" />
     <ClInclude Include="..\..\..\engine\script\script_as_mesh.h" />
     <ClInclude Include="..\..\..\engine\script\script_as_scene.h" />
@@ -123,6 +125,8 @@
     <ClCompile Include="..\..\..\engine\script\scriptstdstring\scriptstdstring.cpp" />
     <ClCompile Include="..\..\..\engine\script\script_as.cpp" />
     <ClCompile Include="..\..\..\engine\script\script_as_camera.cpp" />
+    <ClCompile Include="..\..\..\engine\script\script_as_color.cpp" />
+    <ClCompile Include="..\..\..\engine\script\script_as_global.cpp" />
     <ClCompile Include="..\..\..\engine\script\script_as_light.cpp" />
     <ClCompile Include="..\..\..\engine\script\script_as_mesh.cpp" />
     <ClCompile Include="..\..\..\engine\script\script_as_scene.cpp" />

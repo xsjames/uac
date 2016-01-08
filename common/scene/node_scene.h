@@ -27,7 +27,6 @@ public:
 	INodeScene(INode* parent, ISceneManager* mgr, const std::string& scriptname, int id = -1)
 		: INode(parent, mgr, id)
 		, _active(false), _inputActive(false)
-		, _ambientLight(255,255,255,255)
 		, _shadow(false)
 		, _shadowColor(128,0,0,0)
 	{
@@ -45,41 +44,36 @@ public:
 
 	//! Returns the scene active state
 	bool IsActive() const { return _active; }
-
 	//! Sets the scene active state
 	void SetActive(bool active) { _active = active; }
 	
+
 	//! Returns the scene input state
 	bool IsInputActive() const { return _inputActive; }
-
 	//! Sets the scene input state
 	void SetInputActive(bool active) { _inputActive = active; }
 	
 
 	//! Gets the ambient light color.
-	virtual const Color& GetAmbientLight() const { return _ambientLight; }
-
+	virtual const Color& GetAmbientLight() const = 0;
 	//! Sets the ambient light color.
-	virtual void SetAmbientLight(const Color& color) { _ambientLight = color; }
+	virtual void SetAmbientLight(const Color& color) = 0;
 
 	
 	//! Gets whether the scene's shadow is visible or not.
 	virtual bool GetShadow() const { return _shadow; }
-
 	//! Sets whether the scene's shadow is visible or not.
 	virtual void SetShadow(bool state) { _shadow = state; }
 
 	
 	//! Gets the shadow color.
 	virtual const Color& GetShadowColor() const { return _shadowColor; }
-
 	//! Sets the shadow color.
 	virtual void SetShadowColor(const Color& color) { _shadowColor = color; }
 
 	
 	//! Returns the filename of the walk area.
 	virtual const char* GetWalkArea() const { return _walkArea.c_str(); }
-
 	//! Sets the filename of the walk area.
 	virtual void SetWalkArea(const char* filename) { _walkArea = filename; }
 	virtual void SetWalkArea(const std::string& filename) { _walkArea = filename; }
@@ -89,9 +83,8 @@ public:
 	virtual bool DeserializeAttributes(pugi::xml_node& xmlnode)
 	{
 		INode::DeserializeAttributes(xmlnode);
-		
-		
-		_ambientLight.set(xmlnode.attribute("AmbientLight").value());
+
+
 		_shadow = xmlnode.attribute("ShadowVisible").as_bool();
 		_shadowColor.set(xmlnode.attribute("ShadowColor").value());
 		_walkArea = xmlnode.attribute("WalkableArea").value();
@@ -104,7 +97,6 @@ protected:
 	bool _active;					//! Is the scene in active state.
 	bool _inputActive;				//! Is the scene input active.
 
-	Color _ambientLight;			//! The light that doesn't come from any particular direction. All the objects in the scene will be lit up by the ambient light.
 	bool _shadow;					//! Whether the scene's shadow should be visible or not.
 	Color _shadowColor;				//! Color of the shadows.
 	std::string _walkArea;			//! Name of the walk area file.

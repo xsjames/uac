@@ -32,7 +32,9 @@ namespace Engine
 static INodeScene* Scene_Factory(const std::string& scriptname)
 {
 	LOG(DEBUG)("Scene_Factory");
-	return g_pSceneManager->CreateSceneNode(0, scriptname);
+	INodeScene* node = g_pSceneManager->CreateSceneNode(0, scriptname);
+	g_pSceneManager->Add(node);
+	return node;
 }
 
 static INodeScene *Scene_FactoryCopy(const INodeScene& other)
@@ -52,9 +54,9 @@ void Scene_Release(INodeScene* obj)
 {
 	LOG(DEBUG)("Scene_DROP (%s)", obj->GetScriptName());
 	int r = obj->getRefCounter();
-	if(r == 1 && obj->GetParent())
+	if(r == 1)
 	{
-		obj->RemoveFromScene();
+		g_pSceneManager->Remove(obj);
 	}
 	else
 	{
@@ -93,13 +95,13 @@ void RegisterScene(asIScriptEngine* engine)
 	// Registering the addref/release behaviours
 	r = engine->RegisterObjectBehaviour("Scene", asBEHAVE_ADDREF, "void f()", asFUNCTION(Scene_AddRef), asCALL_CDECL_OBJLAST); assert(r >= 0);
 	r = engine->RegisterObjectBehaviour("Scene", asBEHAVE_RELEASE, "void f()", asFUNCTION(Scene_Release), asCALL_CDECL_OBJLAST); assert(r >= 0);
-	// Registering the assignment behaviour
-	//r = engine->RegisterObjectMethod("Scene", "Mesh &opAssign(const Mesh &in)", asMETHODPR(Oggetto, operator =, (const Oggetto&), Oggetto&), asCALL_THISCALL); assert(r >= 0);
 	// Registering the other behaviours
 	r = engine->RegisterObjectMethod("Scene", "void SetPosition(float, float, float)", asFUNCTION(Scene_SetPosition), asCALL_CDECL_OBJLAST); assert(r >= 0);
 	r = engine->RegisterObjectMethod("Scene", "void SetRotation(float, float, float)", asFUNCTION(Scene_SetRotation), asCALL_CDECL_OBJLAST); assert(r >= 0);
 	r = engine->RegisterObjectMethod("Scene", "void SetScale(float, float, float)", asFUNCTION(Scene_SetScale), asCALL_CDECL_OBJLAST); assert(r >= 0);
-	//r = engine->RegisterGlobalFunction("void Print(const Mesh &in)", asFUNCTION(Oggetto_Print), asCALL_CDECL); assert(r >= 0);
+	//
+	r = engine->RegisterObjectMethod("Scene", "Color GetAmbientLight()", asMETHODPR(INodeScene, GetAmbientLight, (void) const, const Color&), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Scene", "void SetAmbientLight(const Color &in)", asMETHODPR(INodeScene, SetAmbientLight, (const Color&), void), asCALL_THISCALL); assert(r >= 0);
 }
 
 

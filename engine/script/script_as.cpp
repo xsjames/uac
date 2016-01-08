@@ -14,6 +14,8 @@
 #include "script/script_as.h"
 #include "script/scriptstdstring/scriptstdstring.h" // script std::string
 #include "script/scriptbuilder/scriptbuilder.h"
+#include "script/script_as_global.h"
+#include "script/script_as_color.h"
 #include "script/script_as_scene.h"
 #include "script/script_as_camera.h"
 #include "script/script_as_light.h"
@@ -23,6 +25,9 @@
 
 namespace UAC
 {
+
+using namespace Common;
+
 namespace Engine
 {
 
@@ -56,10 +61,17 @@ bool ScriptAS::Init()
 
 	RegisterGameInterface();
 
-	r = LoadScript();
-	if(r < 0) return false; // an error has occurred
 
 	_ctx = _engine->CreateContext();
+	if (_ctx == 0)
+	{
+		LOG(ERROR)("Failed to create the context.");
+		return false;
+	}
+
+
+	r = LoadScript();
+	if(r < 0) return false; // an error has occurred
 
 	return true;
 }
@@ -85,8 +97,12 @@ void ScriptAS::RegisterGameInterface()
 {
 	// Register the script string type (STD String)
 	RegisterStdString(_engine);
+	
+	// Register the engine global functions
+	RegisterGlobalFunctions(_engine);
 
 	// Register the engine objects
+	RegisterColor(_engine);
 	RegisterScene(_engine);
 	RegisterCamera(_engine);
 	RegisterLight(_engine);
@@ -130,12 +146,18 @@ int ScriptAS::LoadScript()
 
 	// Find the function that is to be called. 
 	asIScriptModule* mod = _engine->GetModule("BasicModule");
-	_script_functions[Function_InitApp] = mod->GetFunctionByDecl("void InitApp()");
-	if(_script_functions[Function_InitApp] == 0)
+
+	_script_functions[Function_GameStart] = mod->GetFunctionByDecl("void GameStart()");
+	if(_script_functions[Function_GameStart] == 0)
 	{
-		// The function couldn't be found. Instruct the script writer
-		// to include the expected function in the script.
-		LOG(ERROR)("The script must have the function 'void InitApp()'. Please add it and try again.");
+		LOG(ERROR)("The script must have the function 'void GameStart()'. Please add it and try again.");
+		return -1;
+	}
+
+	_script_functions[Function_RepeatedlyExecute] = mod->GetFunctionByDecl("void RepeatedlyExecute()");
+	if(_script_functions[Function_RepeatedlyExecute] == 0)
+	{
+		LOG(ERROR)("The script must have the function 'void RepeatedlyExecute()'. Please add it and try again.");
 		return -1;
 	}
 
@@ -160,7 +182,6 @@ void ScriptAS::ExecuteFunction(ScriptFunctionIDs func_id)
 		}
 	}
 }
-
 
 
 } // namespace Engine

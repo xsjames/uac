@@ -175,7 +175,7 @@ public:
 	//! Removes this scene node from the scene.
 	virtual void RemoveFromScene()
 	{
-		if (_parent)
+		if(_parent)
 			_parent->RemoveChild(this);
 	}
 	

@@ -17,6 +17,14 @@ namespace Common
 {
 
 
+enum ScriptFunctionIDs
+{
+	Function_GameStart = 0,
+	Function_RepeatedlyExecute = 1,
+	ScriptFunctionsMax
+};
+
+
 class IScript
 {
 public:
@@ -34,6 +42,8 @@ public:
 
 	virtual void RegisterGameInterface() = 0;
 	virtual int LoadScript() = 0;
+
+	virtual void ExecuteFunction(ScriptFunctionIDs func_id) = 0;
 };
 
 

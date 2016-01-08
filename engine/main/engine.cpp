@@ -19,6 +19,7 @@
 //TEMP
 #include "script/script_as.h"
 
+
 using namespace UAC::Common;
 using namespace UAC::Engine;
 
@@ -54,11 +55,10 @@ int engine_run_game()
 	LOG(INFO)("Run game");
 
 	//TEMP
-	g_pSceneManager->Render();
-
-	/*
-	while(g_pSceneManager->Run())
+	while(g_pDevice->Run())
 	{
+		((ScriptAS*)g_pScripting)->ExecuteFunction(Function_RepeatedlyExecute);
+
 		g_pSceneManager->Update();
 		g_pSceneManager->Render();
 	}
@@ -180,17 +180,16 @@ int StartEngine()
 	}
 	//
 	g_pSceneManager->Init(g_pDevice);
-	
 
-	//TEMP
-	g_pSceneManager->LoadScenesFromFile();
-
+	//TEMP g_pSceneManager->LoadScenesFromFile();
 
 	//TEMP
 	LOG(INFO)("Init scripting system");
-	g_pScripting->Init();
-	LOG(INFO)("Execute script: InitApp()");
-	((ScriptAS*)g_pScripting)->ExecuteFunction(Function_InitApp);
+	if(!g_pScripting->Init())
+		return -1; //TEMP
+
+	LOG(INFO)("Execute script: void GameStart()");
+	((ScriptAS*)g_pScripting)->ExecuteFunction(Function_GameStart);
 
 	engine_run_game();
 

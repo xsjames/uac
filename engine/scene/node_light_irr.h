@@ -33,6 +33,7 @@ public:
 		: Common::INode(parent, mgr, id)
 		, Common::INodeLight(parent, mgr, type, scriptname, id)
 		, INodeIrr()
+		, _color(255, 255, 255, 255)
 	{
 		//TODO: utilizzare valori del costruttore
 
@@ -45,6 +46,26 @@ public:
 	{
 		LOG(DEBUG)("DELETE  Light (%s)", _sName.c_str());
 	}
+
+
+	//! Gets the light color.
+	virtual const Common::Color& GetColor() const { return _color; }
+	//! Sets the light color.
+	virtual void SetColor(const Common::Color& color)
+	{
+		LOG(DEBUG)("Light_SetColor (%s)", GetScriptName());
+		_color = color;
+
+		irr::video::SColorf c(irr::video::SColor(255, color.r, color.g, color.b));
+
+		((irr::scene::ILightSceneNode*)_node_irr)->getLightData().DiffuseColor = c;
+		// set some useful specular color
+		((irr::scene::ILightSceneNode*)_node_irr)->getLightData().SpecularColor = c.getInterpolated(irr::video::SColor(255, 255, 255, 255), 0.7f);
+	}
+
+
+protected:
+	Common::Color _color;					//! Color of the light.
 };
 
 

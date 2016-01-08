@@ -29,10 +29,13 @@ namespace Engine
 {
 
 //TODO lo scriptname è utile per la fase di sviluppo e debug, poi si vedrà se manternerlo
-static INodeCamera* Camera_Factory(const std::string& scriptname)
+static INodeCamera* Camera_Factory(INodeScene* parent, const std::string& scriptname)
 {
 	LOG(DEBUG)("Camera_Factory");
-	return g_pSceneManager->CreateCameraNode(g_pSceneManager->GetRoot(), scriptname);
+	INodeCamera* node = g_pSceneManager->CreateCameraNode(parent, scriptname);
+	if (parent)
+		node->grab(); // add the reference of the parent in the script
+	return node;
 }
 
 static INodeCamera *Camera_FactoryCopy(const INodeCamera& other)
@@ -88,7 +91,7 @@ void RegisterCamera(asIScriptEngine* engine)
 
 	r = engine->RegisterObjectType("Camera", 0, asOBJ_REF); assert(r >= 0);
 	// with reference types we register factores and not constructors
-	r = engine->RegisterObjectBehaviour("Camera", asBEHAVE_FACTORY, "Camera @f(string &in)", asFUNCTION(Camera_Factory), asCALL_CDECL); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Camera", asBEHAVE_FACTORY, "Camera @f(const Scene &in, string &in)", asFUNCTION(Camera_Factory), asCALL_CDECL); assert(r >= 0);
 	r = engine->RegisterObjectBehaviour("Camera", asBEHAVE_FACTORY, "Camera @f(const Camera &in)", asFUNCTION(Camera_FactoryCopy), asCALL_CDECL); assert(r >= 0);
 	// Registering the addref/release behaviours
 	r = engine->RegisterObjectBehaviour("Camera", asBEHAVE_ADDREF, "void f()", asFUNCTION(Camera_AddRef), asCALL_CDECL_OBJLAST); assert(r >= 0);

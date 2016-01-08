@@ -64,7 +64,7 @@ bool SceneManagerIrr::LoadScenesFromFile()
 }
 
 
-INodeScene* SceneManagerIrr::CreateSceneNode(INode* parent, const std::string& scriptname)
+INodeScene* SceneManagerIrr::CreateSceneNode(INodeScene* parent, const std::string& scriptname)
 {
 	NodeSceneIrr* node = new NodeSceneIrr(parent, this, scriptname);
 	if(!node)
@@ -72,11 +72,10 @@ INodeScene* SceneManagerIrr::CreateSceneNode(INode* parent, const std::string& s
 		LOG(FATAL)("Unable to add scene node!");
 		return 0;
 	}
-
-	Add(node);
 	
-	//TODO: PROBLEMA: trovare il nodo (parent) a cui collegare la mesh
 	scene::ISceneNode* parent_irr = 0;
+	if(parent)
+		parent_irr = ((NodeSceneIrr*)parent)->GetNodeIrr();
 
 	scene::ISceneNode* node_irr = _smgr->addEmptySceneNode(parent_irr);
 	if(!node_irr)
@@ -88,13 +87,14 @@ INodeScene* SceneManagerIrr::CreateSceneNode(INode* parent, const std::string& s
 	//
 	node->SetNodeIrr(node_irr);
 
-	//
-	_smgr->setAmbientLight(video::SColor(255, 255, 50, 120));
+	//TEMP
+	node->SetActive(true); //TEMP - al momento è l'unico nodo quindi quello attivo
+	node->SetAmbientLight(node->GetAmbientLight()); //TEMP serve per settare ambient-light
 
 	return node;
 }
 
-INodeCamera* SceneManagerIrr::CreateCameraNode(INode* parent, const std::string& scriptname)
+INodeCamera* SceneManagerIrr::CreateCameraNode(INodeScene* parent, const std::string& scriptname)
 {
 	NodeCameraIrr* node = new NodeCameraIrr(parent, this, scriptname);
 	if(!node)
@@ -103,8 +103,9 @@ INodeCamera* SceneManagerIrr::CreateCameraNode(INode* parent, const std::string&
 		return 0;
 	}
 	
-	//TODO: PROBLEMA: trovare il nodo (parent) a cui collegare la mesh
 	scene::ISceneNode* parent_irr = 0;
+	if (parent)
+		parent_irr = ((NodeSceneIrr*)parent)->GetNodeIrr();
 
 	scene::ICameraSceneNode* node_irr = _smgr->addCameraSceneNode(parent_irr);
 	if(!node_irr)
@@ -154,7 +155,7 @@ INodeCamera* SceneManagerIrr::CreateCameraNode(INode* parent, const std::string&
 	return node;
 }
 
-INodeLight* SceneManagerIrr::CreateLightNode(INode* parent, LIGHT_TYPE type, const std::string& scriptname)
+INodeLight* SceneManagerIrr::CreateLightNode(INodeScene* parent, LIGHT_TYPE type, const std::string& scriptname)
 {
 	NodeLightIrr* node = new NodeLightIrr(parent, this, type, scriptname);
 	if(!node)
@@ -162,9 +163,10 @@ INodeLight* SceneManagerIrr::CreateLightNode(INode* parent, LIGHT_TYPE type, con
 		LOG(FATAL)("Unable to add light node!");
 		return 0;
 	}
-	
-	//TODO: PROBLEMA: trovare il nodo (parent) a cui collegare la mesh
+
 	scene::ISceneNode* parent_irr = 0;
+	if (parent)
+		parent_irr = ((NodeSceneIrr*)parent)->GetNodeIrr();
 
 	float _distance = 500;
 	vector3f _direction(45.000000, 70.000000, 0.000000);
@@ -208,7 +210,7 @@ INodeLight* SceneManagerIrr::CreateLightNode(INode* parent, LIGHT_TYPE type, con
 	return node;
 }
 
-INodeMesh* SceneManagerIrr::CreateMeshNode(INode* parent, const std::string& filename, const std::string& scriptname)
+INodeMesh* SceneManagerIrr::CreateMeshNode(INodeScene* parent, const std::string& filename, const std::string& scriptname)
 {
 	NodeMeshIrr* node = new NodeMeshIrr(parent, this, filename, scriptname);
 	if(!node)
@@ -225,9 +227,10 @@ INodeMesh* SceneManagerIrr::CreateMeshNode(INode* parent, const std::string& fil
 		return 0;
 	}
 
-	//TODO: PROBLEMA: trovare il nodo (parent) a cui collegare la mesh
 	scene::ISceneNode* parent_irr = 0;
-	
+	if (parent)
+		parent_irr = ((NodeSceneIrr*)parent)->GetNodeIrr();
+
 	scene::IAnimatedMeshSceneNode* node_irr = _smgr->addAnimatedMeshSceneNode(mesh, parent_irr/*, IDFlag_IsPickable*/);
 	if(!node_irr)
 	{
@@ -248,6 +251,26 @@ INodeMesh* SceneManagerIrr::CreateMeshNode(INode* parent, const std::string& fil
 */
 
 	return node;
+}
+
+//TEMP
+s32 lastFPS = -1;
+void SceneManagerIrr::Render()
+{
+	video::IVideoDriver* drv = ((DeviceIrr*)_device)->GetDeviceIrr()->getVideoDriver();
+	const s32 fps = drv->getFPS();
+	if(lastFPS != fps)
+	{
+		core::stringw str = L"UAC Engine - Hello World! [";
+		str += drv->getName();
+		str += "] FPS:";
+		str += fps;
+
+		((DeviceIrr*)_device)->GetDeviceIrr()->setWindowCaption(str.c_str());
+		lastFPS = fps;
+	}
+
+	_gfxdriver->Render();
 }
 
 

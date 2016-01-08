@@ -21,22 +21,17 @@ namespace UAC
 namespace Engine
 {
 
-	
-// enumerations -------------------------------------------------------------
-enum ScriptFunctionIDs
-{
-	Function_InitApp = 0
-};
-
-const unsigned int max_script_functions = 1;
-
 
 class ScriptAS : public Common::IScript
 {
 public:
 	ScriptAS()
 		: Common::IScript()
-	{}
+		, _engine(0), _ctx(0)
+	{
+		for (int i = 0; i < Common::ScriptFunctionsMax; ++i)
+			_script_functions[i] = 0;
+	}
 
 	virtual ~ScriptAS() { Shutdown(); }
 
@@ -51,13 +46,13 @@ public:
 	virtual void RegisterGameInterface();
 	virtual int LoadScript();
 
-	void ExecuteFunction(ScriptFunctionIDs func_id);
+	virtual void ExecuteFunction(Common::ScriptFunctionIDs func_id);
 
-//protected:
+protected:
 	asIScriptEngine* _engine;
 
 	asIScriptContext* _ctx;
-	asIScriptFunction* _script_functions[max_script_functions];
+	asIScriptFunction* _script_functions[Common::ScriptFunctionsMax];
 };
 
 

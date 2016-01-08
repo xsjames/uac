@@ -25,11 +25,11 @@ namespace Common
 	public:
 		//! Default constructor (null vector).
 		vector3() : X(0), Y(0), Z(0) {}
-		//! Constructor with three different values
+		//! Constructor with three different values.
 		vector3(T nx, T ny, T nz) : X(nx), Y(ny), Z(nz) {}
-		//! Constructor with the same value for all elements
+		//! Constructor with the same value for all elements.
 		explicit vector3(T n) : X(n), Y(n), Z(n) {}
-		//! Copy constructor
+		//! Copy constructor.
 		vector3(const vector3<T>& other) : X(other.X), Y(other.Y), Z(other.Z) {}
 
 

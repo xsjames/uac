@@ -45,6 +45,9 @@ public:
 	virtual bool Init();
 	virtual bool InitGFX(const Common::DisplayMode &mode);
 
+	virtual bool Run();
+
+
 	irr::IrrlichtDevice* GetDeviceIrr() const { return _irr; }
 
 

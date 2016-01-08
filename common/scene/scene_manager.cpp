@@ -52,10 +52,11 @@ void ISceneManager::Add(INodeScene* scene)
 void ISceneManager::Remove(INodeScene* scene)
 {
 	scene->SetSceneManager(0);
-	for (std::vector<INodeScene*>::iterator it = _scenes.begin(); it != _scenes.end(); ++it)
+	for(std::vector<INodeScene*>::iterator it = _scenes.begin(); it != _scenes.end(); ++it)
 	{
 		if(*it == scene)
 		{
+			delete *it;
 			_scenes.erase(it);
 			break;
 		}
@@ -95,8 +96,11 @@ bool ISceneManager::LoadScenesFromFile()
 }
 
 
-bool ISceneManager::_read_node(pugi::xml_node& xmlnode, INode* parent)
+bool ISceneManager::_read_node(pugi::xml_node& xmlnode, INodeScene* parent)
 {
+	LOG(FATAL)("_read_node: DA IMPLEMENTARE !!!");
+	assert(1);
+	/*
 	// add node
 	INode* newnode = 0;
 	//
@@ -140,7 +144,7 @@ bool ISceneManager::_read_node(pugi::xml_node& xmlnode, INode* parent)
 		child = child.next_sibling();
 	}
 	_node_depth--;
-
+	*/
 	return true;
 }
 

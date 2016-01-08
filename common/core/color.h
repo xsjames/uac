@@ -13,6 +13,8 @@
 #ifndef __UAC__COLOR_H
 #define __UAC__COLOR_H
 
+#include <stdio.h>
+
 
 namespace UAC
 {
@@ -28,9 +30,19 @@ namespace Common
 			: color(0)
 		{}
 
+		//! Copy constructor of the Color.
+		Color(const Color& other)
+			: color(other.color)
+		{}
+
+		//! Constructs the color from 3 values representing the red, green and blue component.
+		Color(unsigned int r, unsigned int g, unsigned int b)
+			: color(((0 & 0xff)<<24) | ((r & 0xff)<<16) | ((g & 0xff)<<8) | (b & 0xff))
+		{}
+
 		//! Constructs the color from 4 values representing the alpha, red, green and blue component.
 		Color(unsigned int a, unsigned int r, unsigned int g, unsigned int b)
-			: color(((a & 0xff)<<24) | ((r & 0xff)<<16) | ((g & 0xff)<<8) | (b & 0xff))
+			: color(((255 & 0xff) << 24) | ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff))
 		{}
 
 		//! Constructs the color from a 32 bit value. Could be another color.
@@ -65,9 +77,9 @@ namespace Common
 
 
 		//! Sets all four components of the color at once.
-		void set(unsigned int a, unsigned int r, unsigned int g, unsigned int b)
+		void set(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue)
 		{
-			color = (((a & 0xff)<<24) | ((r & 0xff)<<16) | ((g & 0xff)<<8) | (b & 0xff));
+			color = (((alpha & 0xff)<<24) | ((red & 0xff)<<16) | ((green & 0xff)<<8) | (blue & 0xff));
 		}
 		void set(unsigned int col) { color = col; }
 
@@ -81,6 +93,9 @@ namespace Common
 		}
 
 
+		//! Assign the color to another color.
+		Color& operator=(const Color& other) { color = other.color; return *this; }
+
 		//! Compares the color to another color.
 		bool operator==(const Color& other) const { return other.color == color; }
 
@@ -89,7 +104,16 @@ namespace Common
 
 
 		//! color in A8R8G8B8 Format
-		unsigned int color;
+		union
+		{
+			unsigned int color;
+
+			//TODO: take into account endianness
+			struct
+			{
+				unsigned char b, g, r, a;
+			};
+		};
 	};
 
 

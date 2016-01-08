@@ -123,6 +123,12 @@
     <ClInclude Include="..\..\..\engine\script\script_as_light.h">
       <Filter>Header Files\script</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\script_as_color.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\script\script_as_global.h">
+      <Filter>Header Files\script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\engine\main\engine.cpp">
@@ -186,6 +192,12 @@
       <Filter>Source Files\script</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\script\script_as_light.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\script_as_color.cpp">
+      <Filter>Source Files\script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\script\script_as_global.cpp">
       <Filter>Source Files\script</Filter>
     </ClCompile>
   </ItemGroup>

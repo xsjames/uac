@@ -29,10 +29,13 @@ namespace Engine
 {
 
 //TODO lo scriptname è utile per la fase di sviluppo e debug, poi si vedrà se manternerlo
-static INodeMesh* Mesh_Factory(const std::string& filename, const std::string& scriptname)
+static INodeMesh* Mesh_Factory(INodeScene* parent, const std::string& filename, const std::string& scriptname)
 {
 	LOG(DEBUG)("Mesh_Factory");
-	return g_pSceneManager->CreateMeshNode(g_pSceneManager->GetRoot(), filename, scriptname);
+	INodeMesh* node = g_pSceneManager->CreateMeshNode(parent, filename, scriptname);
+	if (parent)
+		node->grab(); // add the reference of the parent in the script
+	return node;
 }
 
 static INodeMesh *Mesh_FactoryCopy(const INodeMesh& other)
@@ -88,7 +91,7 @@ void RegisterMesh(asIScriptEngine* engine)
 
 	r = engine->RegisterObjectType("Mesh", 0, asOBJ_REF); assert(r >= 0);
 	// with reference types we register factores and not constructors
-	r = engine->RegisterObjectBehaviour("Mesh", asBEHAVE_FACTORY, "Mesh @f(string &in, string &in)", asFUNCTION(Mesh_Factory), asCALL_CDECL); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Mesh", asBEHAVE_FACTORY, "Mesh @f(const Scene &in, string &in, string &in)", asFUNCTION(Mesh_Factory), asCALL_CDECL); assert(r >= 0);
 	r = engine->RegisterObjectBehaviour("Mesh", asBEHAVE_FACTORY, "Mesh @f(const Mesh &in)", asFUNCTION(Mesh_FactoryCopy), asCALL_CDECL); assert(r >= 0);
 	// Registering the addref/release behaviours
 	r = engine->RegisterObjectBehaviour("Mesh", asBEHAVE_ADDREF, "void f()", asFUNCTION(Mesh_AddRef), asCALL_CDECL_OBJLAST); assert(r >= 0);
