@@ -84,9 +84,42 @@ void Scene_SetScale(float x, float y, float z, INodeScene* obj)
 }
 
 
+asIScriptObject* gObj = 0;
+void Scene_SetController(asIScriptObject* script_obj, INodeScene* obj)
+{
+	gObj = script_obj;
+	asIObjectType* ot = script_obj->GetObjectType();
+	LOG(DEBUG)("Scene_SetController (%s) - name: %s", obj->GetScriptName(), ot->GetName());
+
+	for(int i = 0; i < ot->GetMethodCount(); ++i)
+	{
+		LOG(DEBUG)("  [%d] - %s", i, ot->GetMethodByIndex(i)->GetName());
+	}
+
+	asIScriptFunction *func = ot->GetMethodByName("DoSomething");
+	asIScriptContext* _ctx;
+	_ctx = script_obj->GetEngine()->CreateContext();
+	_ctx->Prepare(func);
+	_ctx->SetObject(script_obj);
+	int r = _ctx->Execute();
+	_ctx->Release();
+}
+
+asIScriptObject* Scene_GetController(INodeScene* obj)
+{
+	LOG(DEBUG)("\n\n GetController \n\n", obj->GetScriptName());
+	gObj->AddRef();
+	return gObj;
+}
+
+
 void RegisterScene(asIScriptEngine* engine)
 {
 	int r;
+
+	//TEMP
+	r = engine->RegisterInterface("ISceneController"); assert(r >= 0);
+	r = engine->RegisterInterfaceMethod("ISceneController", "void DoSomething()"); assert(r >= 0);
 
 	r = engine->RegisterObjectType("Scene", 0, asOBJ_REF); assert(r >= 0);
 	// with reference types we register factores and not constructors
@@ -102,6 +135,10 @@ void RegisterScene(asIScriptEngine* engine)
 	//
 	r = engine->RegisterObjectMethod("Scene", "Color GetAmbientLight()", asMETHODPR(INodeScene, GetAmbientLight, (void) const, const Color&), asCALL_THISCALL); assert(r >= 0);
 	r = engine->RegisterObjectMethod("Scene", "void SetAmbientLight(const Color &in)", asMETHODPR(INodeScene, SetAmbientLight, (const Color&), void), asCALL_THISCALL); assert(r >= 0);
+
+	//TEMP
+	r = engine->RegisterObjectMethod("Scene", "void SetController(ISceneController @obj)", asFUNCTION(Scene_SetController), asCALL_CDECL_OBJLAST); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Scene", "ISceneController@ GetController()", asFUNCTION(Scene_GetController), asCALL_CDECL_OBJLAST); assert(r >= 0);
 }
 
 

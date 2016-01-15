@@ -10,6 +10,8 @@
 #ifndef __UAC__SCRIPT_H
 #define __UAC__SCRIPT_H
 
+#include "scene/node_scene.h"
+
 
 namespace UAC
 {
@@ -17,11 +19,18 @@ namespace Common
 {
 
 
-enum ScriptFunctionIDs
+enum ScriptGlobalFunctionIDs
 {
-	Function_GameStart = 0,
-	Function_RepeatedlyExecute = 1,
-	ScriptFunctionsMax
+	Global_GameStart = 0,
+	Global_RepeatedlyExecute = 1,
+	GlobalFunction_Max
+};
+
+
+enum ScriptSceneFunctionIDs
+{
+	Scene_RepeatedlyExecute = 0,
+	SceneFunction_Max
 };
 
 
@@ -43,7 +52,12 @@ public:
 	virtual void RegisterGameInterface() = 0;
 	virtual int LoadScript() = 0;
 
-	virtual void ExecuteFunction(ScriptFunctionIDs func_id) = 0;
+
+	virtual void Execute_GlobalFunction(ScriptGlobalFunctionIDs func_id) = 0;
+
+	// Execute the active scene functions
+	virtual void SetActiveScene(INodeScene* scene) = 0;
+	virtual void Execute_SceneFunction(ScriptSceneFunctionIDs func_id) = 0;
 };
 
 

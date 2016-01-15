@@ -1,5 +1,10 @@
 Gestione eventi mouse/tastiera nel loop principale (vedere come esempio AGS e Unity)
 
+Creare una interface SceneControl da cui derivare il controllo della scena e poi associare all'oggetto Scene
+
+-- dove registrare le funzioni ???
+
+
 Creare un progetto solo Irrlicht per testare le funzioni da aggiungere
 
 0) Fare tutte le classi il più possibile astratte togliendo i parametri ???
@@ -27,7 +32,7 @@ Scripting:
 - caricare opcode + esecuzione nel loop dell'engine
 
 
-Scenemanager:
+SceneManager:
  - carica la scena da file irrEdit/Coppercube
  - esegue scripts
  - gestisce interazioni
@@ -69,6 +74,6 @@ PugiXML 1.7 (http://pugixml.org/)
 [ok] distruttore di GFX_DRIVER
 [ok] loop di rendering
 [ok] creare struttura oggetti per caricare scena da file XML (vedi CD3D)
-[ok] Scenemanager:
+[ok] Scene-Manager:
 		- scarica dalla memoria
 		- mostra a video la scena

@@ -34,16 +34,21 @@ namespace Engine
 // Implement a simple message callback function
 void MessageCallback(const asSMessageInfo *msg, void *param)
 {
-	const char *type = "ERR ";
-	if( msg->type == asMSGTYPE_WARNING ) type = "WARN";
-	else if( msg->type == asMSGTYPE_INFORMATION ) type = "INFO";
-
 	char real_message[256];
+	sprintf_s(real_message, 256, "%s (%d, %d) : %s\n", msg->section, msg->row, msg->col, msg->message);
 
-	sprintf_s(real_message, 256, "%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message);
-
-	//TODO - mettere nel LOG
-	LOG(INFO)("AngelScript: %s", real_message);
+	if(msg->type == asMSGTYPE_WARNING)
+	{
+		LOG(WARN)("AngelScript: %s", real_message);
+	}
+	else if(msg->type == asMSGTYPE_INFORMATION)
+	{
+		LOG(INFO)("AngelScript: %s", real_message);
+	}
+	else
+	{
+		LOG(ERROR)("AngelScript: %s", real_message);
+	}
 }
 
 
@@ -147,15 +152,15 @@ int ScriptAS::LoadScript()
 	// Find the function that is to be called. 
 	asIScriptModule* mod = _engine->GetModule("BasicModule");
 
-	_script_functions[Function_GameStart] = mod->GetFunctionByDecl("void GameStart()");
-	if(_script_functions[Function_GameStart] == 0)
+	_script_functions[Global_GameStart] = mod->GetFunctionByDecl("void GameStart()");
+	if(_script_functions[Global_GameStart] == 0)
 	{
 		LOG(ERROR)("The script must have the function 'void GameStart()'. Please add it and try again.");
 		return -1;
 	}
 
-	_script_functions[Function_RepeatedlyExecute] = mod->GetFunctionByDecl("void RepeatedlyExecute()");
-	if(_script_functions[Function_RepeatedlyExecute] == 0)
+	_script_functions[Global_RepeatedlyExecute] = mod->GetFunctionByDecl("void RepeatedlyExecute()");
+	if(_script_functions[Global_RepeatedlyExecute] == 0)
 	{
 		LOG(ERROR)("The script must have the function 'void RepeatedlyExecute()'. Please add it and try again.");
 		return -1;
@@ -165,7 +170,7 @@ int ScriptAS::LoadScript()
 }
 
 
-void ScriptAS::ExecuteFunction(ScriptFunctionIDs func_id)
+void ScriptAS::Execute_GlobalFunction(ScriptGlobalFunctionIDs func_id)
 {
 	if(_ctx)
 	{
@@ -181,6 +186,11 @@ void ScriptAS::ExecuteFunction(ScriptFunctionIDs func_id)
 			}
 		}
 	}
+}
+
+
+void ScriptAS::Execute_SceneFunction(ScriptSceneFunctionIDs func_id)
+{
 }
 
 

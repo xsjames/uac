@@ -57,7 +57,7 @@ int engine_run_game()
 	//TEMP
 	while(g_pDevice->Run())
 	{
-		((ScriptAS*)g_pScripting)->ExecuteFunction(Function_RepeatedlyExecute);
+		((ScriptAS*)g_pScripting)->Execute_GlobalFunction(Global_RepeatedlyExecute);
 
 		g_pSceneManager->Update();
 		g_pSceneManager->Render();
@@ -189,7 +189,7 @@ int StartEngine()
 		return -1; //TEMP
 
 	LOG(INFO)("Execute script: void GameStart()");
-	((ScriptAS*)g_pScripting)->ExecuteFunction(Function_GameStart);
+	((ScriptAS*)g_pScripting)->Execute_GlobalFunction(Global_GameStart);
 
 	engine_run_game();
 
