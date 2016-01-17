@@ -16,9 +16,6 @@
 #include "device/device_helper.h"
 #include "script/script_helper.h"
 
-//TEMP
-#include "script/script_as.h"
-
 
 using namespace UAC::Common;
 using namespace UAC::Engine;
@@ -57,7 +54,7 @@ int engine_run_game()
 	//TEMP
 	while(g_pDevice->Run())
 	{
-		((ScriptAS*)g_pScripting)->Execute_GlobalFunction(Global_RepeatedlyExecute);
+		g_pScripting->Execute_GlobalFunction(Global_RepeatedlyExecute);
 
 		g_pSceneManager->Update();
 		g_pSceneManager->Render();
@@ -189,7 +186,7 @@ int StartEngine()
 		return -1; //TEMP
 
 	LOG(INFO)("Execute script: void GameStart()");
-	((ScriptAS*)g_pScripting)->Execute_GlobalFunction(Global_GameStart);
+	g_pScripting->Execute_GlobalFunction(Global_GameStart);
 
 	engine_run_game();
 

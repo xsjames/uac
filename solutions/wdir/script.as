@@ -14,11 +14,19 @@ class MyClass : ISceneController
 		Print(" - dtor\n");
 	}
 	
-	void metodo2()
+	void Enter()
 	{
+		Print(_name);
+		Print(" - Enter\n");
 	}
 	
-	void DoSomething()
+	void Leave()
+	{
+		Print(_name);
+		Print(" - Leave\n");
+	}
+	
+	void RepeatedlyExecute()
 	{
 		Print(_name);
 		Print(" - do something\n");
@@ -29,14 +37,14 @@ class MyClass : ISceneController
 
 
 
-Scene root("one");
-Scene root2("two");
+Scene scene1("scene1");
+Scene scene2("scene2");
 
-Camera camera(root, "camera");
-Light sun(root, LT_DIRECTIONAL, "sun");
+Camera camera(scene1, "camera");
+Light sun(scene1, LT_DIRECTIONAL, "sun");
 
-Mesh world(root, "media/world.ms3d", "world");
-Mesh tent(root2, "media/tentacle.ms3d", "tent");
+Mesh world(scene1, "media/world.ms3d", "world");
+Mesh tent(scene2, "media/tentacle.ms3d", "tent");
 
 uint time;
 int state = 1;
@@ -44,12 +52,12 @@ int state = 1;
 void GameStart()
 {
 	MyClass ctrl("[CONTROLLER]");
-	root.SetController(ctrl);
+	scene1.SetController(ctrl);
 
 	tent.SetPosition(47,0,2);
 	tent.SetScale(0.7,0.7,0.7);
 	
-	root2.SetPosition(-30,10,-10);
+	scene2.SetPosition(-30,10,-10);
 
 	time = GetSystemTime();
 }
@@ -63,8 +71,8 @@ void RepeatedlyExecute()
 			sun.SetColor(Color(255,0,0));
 			state = 0;
 			
-			ISceneController @m = root.GetController();
-			m.DoSomething();
+			ISceneController @m = scene1.GetController();
+			m.RepeatedlyExecute();
 		}
 		else
 		{

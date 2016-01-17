@@ -10,6 +10,7 @@
 #ifndef __UAC__SCRIPT_H
 #define __UAC__SCRIPT_H
 
+//TEMP node_scene.h
 #include "scene/node_scene.h"
 
 
@@ -29,7 +30,9 @@ enum ScriptGlobalFunctionIDs
 
 enum ScriptSceneFunctionIDs
 {
-	Scene_RepeatedlyExecute = 0,
+	Scene_Enter = 0,
+	Scene_Leave = 1,
+	Scene_RepeatedlyExecute = 2,
 	SceneFunction_Max
 };
 

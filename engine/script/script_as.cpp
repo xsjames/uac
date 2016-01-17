@@ -84,6 +84,12 @@ bool ScriptAS::Init()
 
 void ScriptAS::Shutdown()
 {
+	for(std::vector<SceneController*>::iterator it = _scenes_controllers.begin(); it != _scenes_controllers.end(); ++it)
+	{
+		delete *it;
+	}
+	_scenes_controllers.clear();
+
 	if(_ctx)
 	{
 		_ctx->Release();
@@ -152,15 +158,15 @@ int ScriptAS::LoadScript()
 	// Find the function that is to be called. 
 	asIScriptModule* mod = _engine->GetModule("BasicModule");
 
-	_script_functions[Global_GameStart] = mod->GetFunctionByDecl("void GameStart()");
-	if(_script_functions[Global_GameStart] == 0)
+	_global_functions[Global_GameStart] = mod->GetFunctionByDecl("void GameStart()");
+	if(_global_functions[Global_GameStart] == 0)
 	{
 		LOG(ERROR)("The script must have the function 'void GameStart()'. Please add it and try again.");
 		return -1;
 	}
 
-	_script_functions[Global_RepeatedlyExecute] = mod->GetFunctionByDecl("void RepeatedlyExecute()");
-	if(_script_functions[Global_RepeatedlyExecute] == 0)
+	_global_functions[Global_RepeatedlyExecute] = mod->GetFunctionByDecl("void RepeatedlyExecute()");
+	if(_global_functions[Global_RepeatedlyExecute] == 0)
 	{
 		LOG(ERROR)("The script must have the function 'void RepeatedlyExecute()'. Please add it and try again.");
 		return -1;
@@ -174,7 +180,7 @@ void ScriptAS::Execute_GlobalFunction(ScriptGlobalFunctionIDs func_id)
 {
 	if(_ctx)
 	{
-		_ctx->Prepare(_script_functions[func_id]);
+		_ctx->Prepare(_global_functions[func_id]);
 		int r = _ctx->Execute();
 		if(r != asEXECUTION_FINISHED)
 		{
@@ -191,6 +197,18 @@ void ScriptAS::Execute_GlobalFunction(ScriptGlobalFunctionIDs func_id)
 
 void ScriptAS::Execute_SceneFunction(ScriptSceneFunctionIDs func_id)
 {
+}
+
+
+SceneController* ScriptAS::FindSceneController(Common::INodeScene* scene)
+{
+	for(std::vector<SceneController*>::iterator it = _scenes_controllers.begin(); it != _scenes_controllers.end(); ++it)
+	{
+		if((*it)->scene == scene)
+			return *it;
+	}
+
+	return 0;
 }
 
 

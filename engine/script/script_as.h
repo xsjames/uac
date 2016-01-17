@@ -12,6 +12,7 @@
 
 #ifdef USE_ASLIB
 
+#include <vector>
 #include "angelscript.h"
 #include "script/script.h"
 
@@ -20,6 +21,22 @@ namespace UAC
 {
 namespace Engine
 {
+
+struct SceneController
+{
+	Common::INodeScene* scene;
+	asIScriptObject* scriptObj;
+	asIScriptFunction* functions[Common::SceneFunction_Max];
+
+	SceneController()
+	{
+		scene = 0;
+		scriptObj = 0;
+
+		for(int i = 0; i < Common::SceneFunction_Max; ++i)
+			functions[i] = 0;
+	}
+};
 
 
 class ScriptAS : public Common::IScript
@@ -30,7 +47,7 @@ public:
 		, _engine(0), _ctx(0), _active_scene(0)
 	{
 		for (int i = 0; i < Common::GlobalFunction_Max; ++i)
-			_script_functions[i] = 0;
+			_global_functions[i] = 0;
 	}
 
 	virtual ~ScriptAS() { Shutdown(); }
@@ -50,17 +67,22 @@ public:
 	virtual void Execute_GlobalFunction(Common::ScriptGlobalFunctionIDs func_id);
 
 	// Execute the active scene functions
-	virtual void SetActiveScene(Common::INodeScene* scene) { _active_scene = 0; }
+	virtual void SetActiveScene(Common::INodeScene* scene) { _active_scene = scene; }
 	virtual void Execute_SceneFunction(Common::ScriptSceneFunctionIDs func_id);
+
+
+	void AddSceneController(SceneController* ctrl) { _scenes_controllers.push_back(ctrl); }
+	SceneController* FindSceneController(Common::INodeScene* scene);
 
 
 protected:
 	asIScriptEngine* _engine;
 
 	asIScriptContext* _ctx;
-	asIScriptFunction* _script_functions[Common::GlobalFunction_Max];
+	asIScriptFunction* _global_functions[Common::GlobalFunction_Max];
 
 	Common::INodeScene* _active_scene;
+	std::vector<SceneController*> _scenes_controllers;	// Scenes controllers
 };
 
 

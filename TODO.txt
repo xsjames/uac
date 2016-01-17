@@ -1,9 +1,8 @@
 Gestione eventi mouse/tastiera nel loop principale (vedere come esempio AGS e Unity)
 
+Mettere un LOG(DEBUG) in ciascuna funzione richiamata dallo script??? è utile per il debug o con in debug-in-editor non serve a niente???
+
 Creare una interface SceneControl da cui derivare il controllo della scena e poi associare all'oggetto Scene
-
--- dove registrare le funzioni ???
-
 
 Creare un progetto solo Irrlicht per testare le funzioni da aggiungere
 

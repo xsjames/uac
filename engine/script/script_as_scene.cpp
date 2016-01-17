@@ -13,11 +13,12 @@
 #include <assert.h>  // assert()
 #include "script/script_as_scene.h"
 #include "scene/scene_manager.h"
-#include "scene/node_mesh.h"
+#include "script/script_as.h"
 #include "debug/out.h"
 
 
 extern UAC::Common::ISceneManager* g_pSceneManager;
+extern UAC::Common::IScript* g_pScripting;
 
 
 namespace UAC
@@ -84,32 +85,43 @@ void Scene_SetScale(float x, float y, float z, INodeScene* obj)
 }
 
 
-asIScriptObject* gObj = 0;
-void Scene_SetController(asIScriptObject* script_obj, INodeScene* obj)
+void Scene_SetController(asIScriptObject* scriptObj, INodeScene* obj)
 {
-	gObj = script_obj;
-	asIObjectType* ot = script_obj->GetObjectType();
-	LOG(DEBUG)("Scene_SetController (%s) - name: %s", obj->GetScriptName(), ot->GetName());
+	LOG(DEBUG)("Scene_SetController (%s)", obj->GetScriptName());
 
-	for(int i = 0; i < ot->GetMethodCount(); ++i)
-	{
-		LOG(DEBUG)("  [%d] - %s", i, ot->GetMethodByIndex(i)->GetName());
-	}
+	asIObjectType* ot = scriptObj->GetObjectType();
+	
+	SceneController* ctrl = new SceneController;
+	ctrl->scene = obj;
+	ctrl->scriptObj = scriptObj;
+	ctrl->functions[Scene_Enter] = ot->GetMethodByName("Enter");
+	ctrl->functions[Scene_Leave] = ot->GetMethodByName("Leave");
+	ctrl->functions[Scene_RepeatedlyExecute] = ot->GetMethodByName("RepeatedlyExecute");
 
-	asIScriptFunction *func = ot->GetMethodByName("DoSomething");
+	((ScriptAS*)g_pScripting)->AddSceneController(ctrl);
+	//TEMP
+	/*
 	asIScriptContext* _ctx;
-	_ctx = script_obj->GetEngine()->CreateContext();
+	_ctx = scriptObj->GetEngine()->CreateContext();
 	_ctx->Prepare(func);
-	_ctx->SetObject(script_obj);
+	_ctx->SetObject(scriptObj);
 	int r = _ctx->Execute();
 	_ctx->Release();
+	*/
 }
 
 asIScriptObject* Scene_GetController(INodeScene* obj)
 {
-	LOG(DEBUG)("\n\n GetController \n\n", obj->GetScriptName());
-	gObj->AddRef();
-	return gObj;
+	LOG(DEBUG)("GetController (%s)", obj->GetScriptName());
+
+	SceneController* ctrl = ((ScriptAS*)g_pScripting)->FindSceneController(obj);
+
+	if(ctrl)
+	{
+		ctrl->scriptObj->AddRef();
+		return ctrl->scriptObj;
+	}
+	return 0;
 }
 
 
@@ -117,9 +129,11 @@ void RegisterScene(asIScriptEngine* engine)
 {
 	int r;
 
-	//TEMP
+	// Registering ISceneController interface to add scene events
 	r = engine->RegisterInterface("ISceneController"); assert(r >= 0);
-	r = engine->RegisterInterfaceMethod("ISceneController", "void DoSomething()"); assert(r >= 0);
+	r = engine->RegisterInterfaceMethod("ISceneController", "void Enter()"); assert(r >= 0);
+	r = engine->RegisterInterfaceMethod("ISceneController", "void Leave()"); assert(r >= 0);
+	r = engine->RegisterInterfaceMethod("ISceneController", "void RepeatedlyExecute()"); assert(r >= 0);
 
 	r = engine->RegisterObjectType("Scene", 0, asOBJ_REF); assert(r >= 0);
 	// with reference types we register factores and not constructors
@@ -136,7 +150,7 @@ void RegisterScene(asIScriptEngine* engine)
 	r = engine->RegisterObjectMethod("Scene", "Color GetAmbientLight()", asMETHODPR(INodeScene, GetAmbientLight, (void) const, const Color&), asCALL_THISCALL); assert(r >= 0);
 	r = engine->RegisterObjectMethod("Scene", "void SetAmbientLight(const Color &in)", asMETHODPR(INodeScene, SetAmbientLight, (const Color&), void), asCALL_THISCALL); assert(r >= 0);
 
-	//TEMP
+	// Registering the set/get ISceneController behaviours
 	r = engine->RegisterObjectMethod("Scene", "void SetController(ISceneController @obj)", asFUNCTION(Scene_SetController), asCALL_CDECL_OBJLAST); assert(r >= 0);
 	r = engine->RegisterObjectMethod("Scene", "ISceneController@ GetController()", asFUNCTION(Scene_GetController), asCALL_CDECL_OBJLAST); assert(r >= 0);
 }
