@@ -37,7 +37,7 @@ class INode
 public:
 	//! Constructor
 	INode(INode* parent, ISceneManager* mgr, int id = -1)
-		: _parent(parent), _mgr(mgr)
+		: _parent(parent), _mgr(mgr), _visible(true)
 		, _ID(id), _refCounter(1)
 	{
 		if(_parent)

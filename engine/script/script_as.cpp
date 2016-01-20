@@ -109,15 +109,15 @@ void ScriptAS::RegisterGameInterface()
 	// Register the script string type (STD String)
 	RegisterStdString(_engine);
 	
-	// Register the engine global functions
-	RegisterGlobalFunctions(_engine);
-
 	// Register the engine objects
 	RegisterColor(_engine);
 	RegisterScene(_engine);
 	RegisterCamera(_engine);
 	RegisterLight(_engine);
 	RegisterMesh(_engine);
+
+	// Register the engine global functions
+	RegisterGlobalFunctions(_engine);
 }
 
 

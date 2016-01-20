@@ -11,6 +11,7 @@
 #define __UAC__NODE_SCENE_H
 
 #include "scene/node.h"
+#include "scene/node_camera.h"
 
 
 
@@ -43,16 +44,22 @@ public:
 
 
 	//! Returns the scene active state
-	bool IsActive() const { return _active; }
+	virtual bool IsActive() const { return _active; }
 	//! Sets the scene active state
-	void SetActive(bool active) { _active = active; }
+	virtual void SetActive(bool active) { _active = active; }
 	
 
 	//! Returns the scene input state
-	bool IsInputActive() const { return _inputActive; }
+	virtual bool IsInputActive() const { return _inputActive; }
 	//! Sets the scene input state
-	void SetInputActive(bool active) { _inputActive = active; }
+	virtual void SetInputActive(bool active) { _inputActive = active; }
 	
+
+	//! Gets the currently active camera.
+	virtual INodeCamera* GetActiveCamera() const = 0;
+	//! Sets the active camera used to render the scene.
+	virtual void SetActiveCamera(INodeCamera* camera) = 0;
+
 
 	//! Gets the ambient light color.
 	virtual const Color& GetAmbientLight() const = 0;

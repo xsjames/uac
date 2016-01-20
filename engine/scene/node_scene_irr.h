@@ -34,7 +34,7 @@ public:
 		: Common::INode(parent, mgr, id)
 		, Common::INodeScene(parent, mgr, scriptname, id)
 		, INodeIrr()
-		, _ambientLight(255, 255, 255, 255)
+		, _activeCamera(0), _ambientLight(255, 255, 255, 255)
 	{
 		//TODO: utilizzare valori del costruttore
 
@@ -48,6 +48,16 @@ public:
 	}
 
 
+	//! Sets the scene active state
+	virtual void SetActive(bool active);
+
+
+	//! Gets the currently active camera.
+	virtual Common::INodeCamera* GetActiveCamera() const { return _activeCamera; }
+	//! Sets the active camera used to render the scene.
+	virtual void SetActiveCamera(Common::INodeCamera* camera);
+
+
 	//! Gets the ambient light color.
 	virtual const Common::Color& GetAmbientLight() const { return _ambientLight; }
 	//! Sets the ambient light color.
@@ -58,13 +68,19 @@ public:
 
 		if(IsActive())
 		{
-			GetNodeIrr()->getSceneManager()->setAmbientLight(irr::video::SColor(255, color.r, color.g, color.b));
+			_setAMbientLightIrr();
 		}
 	}
 
 
 protected:
 	Common::Color _ambientLight;			//! The light that doesn't come from any particular direction. All the objects in the scene will be lit up by the ambient light.
+	Common::INodeCamera* _activeCamera;		//! The currently active camera used to render the scene.
+
+
+private:
+	void _setActiveCameraIrr();
+	void _setAMbientLightIrr();
 };
 
 

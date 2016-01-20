@@ -125,6 +125,7 @@ asIScriptObject* Scene_GetController(INodeScene* obj)
 }
 
 
+
 void RegisterScene(asIScriptEngine* engine)
 {
 	int r;

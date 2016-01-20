@@ -88,7 +88,6 @@ INodeScene* SceneManagerIrr::CreateSceneNode(INodeScene* parent, const std::stri
 	node->SetNodeIrr(node_irr);
 
 	//TEMP
-	node->SetActive(true); //TEMP - al momento è l'unico nodo quindi quello attivo
 	node->SetAmbientLight(node->GetAmbientLight()); //TEMP serve per settare ambient-light
 
 	return node;
@@ -104,23 +103,30 @@ INodeCamera* SceneManagerIrr::CreateCameraNode(INodeScene* parent, const std::st
 	}
 	
 	scene::ISceneNode* parent_irr = 0;
-	if (parent)
+	if(parent)
+	{
 		parent_irr = ((NodeSceneIrr*)parent)->GetNodeIrr();
+
+		parent->SetActiveCamera(node);
+	}
 
 	scene::ICameraSceneNode* node_irr = _smgr->addCameraSceneNode(parent_irr);
 	if(!node_irr)
 	{
-		LOG(FATAL)("Unable to add scene node (IRR)!");
+		LOG(FATAL)("Unable to add camera node (IRR)!");
 		delete node;
 		return 0;
 	}
 	//
 	node->SetNodeIrr(node_irr);
 
-	node_irr->bindTargetAndRotation( true );
+	// workaround: Irrlicht seem to set the last camera added as active
+	_current->SetActiveCamera(_current->GetActiveCamera());
 
 
 	//TEMP provvisorio
+	node_irr->bindTargetAndRotation(true);
+	
 	scene::ISceneNode* parent_node = _smgr->addEmptySceneNode(parent_irr/*, IDFlag_IsNotPickable*/);
 
 	vector3f _position(-15.000000, 30.000000, -110.000000);
@@ -165,7 +171,7 @@ INodeLight* SceneManagerIrr::CreateLightNode(INodeScene* parent, LIGHT_TYPE type
 	}
 
 	scene::ISceneNode* parent_irr = 0;
-	if (parent)
+	if(parent)
 		parent_irr = ((NodeSceneIrr*)parent)->GetNodeIrr();
 
 	float _distance = 500;
@@ -194,7 +200,7 @@ INodeLight* SceneManagerIrr::CreateLightNode(INodeScene* parent, LIGHT_TYPE type
 		}
 		//
 		node->SetNodeIrr(node_irr);
-
+		//
 		node_irr->getLightData().Type = video::ELT_DIRECTIONAL;
 		node_irr->setRotation(dir);
 	}
@@ -228,7 +234,7 @@ INodeMesh* SceneManagerIrr::CreateMeshNode(INodeScene* parent, const std::string
 	}
 
 	scene::ISceneNode* parent_irr = 0;
-	if (parent)
+	if(parent)
 		parent_irr = ((NodeSceneIrr*)parent)->GetNodeIrr();
 
 	scene::IAnimatedMeshSceneNode* node_irr = _smgr->addAnimatedMeshSceneNode(mesh, parent_irr/*, IDFlag_IsPickable*/);

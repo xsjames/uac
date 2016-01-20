@@ -47,6 +47,18 @@ void ISceneManager::Add(INodeScene* scene)
 {
 	scene->SetSceneManager(this);
 	_scenes.push_back(scene);
+
+	// the fisrt scene is set as the active one
+	if(_scenes.size() == 1)
+	{
+		// this is the first scene
+		_current = scene;
+		_current->SetActive(true);
+	}
+	else
+	{
+		scene->SetActive(false);
+	}
 }
 
 void ISceneManager::Remove(INodeScene* scene)
@@ -69,6 +81,26 @@ void ISceneManager::RemoveAll()
 		delete *it;
 
 	_scenes.clear();
+}
+
+
+void ISceneManager::SetActive(INodeScene* scene)
+{
+	if(_current == scene)
+		return;
+
+	for(std::vector<INodeScene*>::iterator it = _scenes.begin(); it != _scenes.end(); ++it)
+	{
+		if(*it == scene)
+		{
+			if(_current)
+			{
+				_current->SetActive(false);
+			}
+			_current = scene;
+			_current->SetActive(true);
+		}
+	}
 }
 
 

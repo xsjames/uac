@@ -58,6 +58,9 @@ public:
 	//INodeScene* Find(const char* name);
 
 
+	//! Set the active scene.
+	virtual void SetActive(INodeScene* scene);
+
 	//! Update the active scene.
 	virtual void Update() = 0;
 
