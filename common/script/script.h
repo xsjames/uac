@@ -10,7 +10,6 @@
 #ifndef __UAC__SCRIPT_H
 #define __UAC__SCRIPT_H
 
-//TEMP node_scene.h
 #include "scene/node_scene.h"
 
 
@@ -57,10 +56,11 @@ public:
 
 
 	virtual void Execute_GlobalFunction(ScriptGlobalFunctionIDs func_id) = 0;
-
 	// Execute the active scene functions
 	virtual void SetActiveScene(INodeScene* scene) = 0;
 	virtual void Execute_SceneFunction(ScriptSceneFunctionIDs func_id) = 0;
+	//
+	virtual void ReleaseScriptObjects() = 0;
 };
 
 

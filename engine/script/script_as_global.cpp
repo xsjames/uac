@@ -16,10 +16,12 @@
 #include <windows.h> // timeGetTime()
 #include "script/script_as_global.h"
 #include "scene/scene_manager.h"
+#include "script/script.h"
 #include "debug/out.h"
 
 
 extern UAC::Common::ISceneManager* g_pSceneManager;
+extern UAC::Common::IScript* g_pScripting;
 
 
 namespace UAC
@@ -37,12 +39,12 @@ void PrintString(std::string &str)
 }
 
 
-
 void SetActiveScene(INodeScene& scene)
 {
 	LOG(DEBUG)("SetActive (%s)", scene.GetScriptName());
 
-	g_pSceneManager->SetActive(&scene);
+	g_pSceneManager->SetActiveScene(&scene);
+	g_pScripting->SetActiveScene(&scene);
 }
 
 

@@ -97,10 +97,9 @@ public:
 	}
 
 
-	//TEMP
 	virtual void Render()
 	{
-		LOG(DEBUG)("RENDER  Irr (%s)", _sName.c_str());
+		LOG(DEBUG)("RENDER  Irr (%s)", _sName.c_str()); //TEMP
 	}
 
 

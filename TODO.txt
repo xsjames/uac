@@ -2,7 +2,6 @@ Gestione eventi mouse/tastiera nel loop principale (vedere come esempio AGS e Un
 
 Mettere un LOG(DEBUG) in ciascuna funzione richiamata dallo script??? è utile per il debug o con in debug-in-editor non serve a niente???
 
-Creare una interface SceneControl da cui derivare il controllo della scena e poi associare all'oggetto Scene
 
 Creare un progetto solo Irrlicht per testare le funzioni da aggiungere
 
@@ -10,7 +9,6 @@ Creare un progetto solo Irrlicht per testare le funzioni da aggiungere
 
 1) SCRIPT SYSTEM 
 - creare interfacce
-	sistema per attivare/disattivare scena
 - registrare funzioni
 
 2) RIVEDERE STRUTTURA GENERALE DEI NAMESPACES (sia nel codice che nello script), INTERFACCE, ECC.
@@ -20,12 +18,6 @@ Creare un progetto solo Irrlicht per testare le funzioni da aggiungere
 4) funzione di abort a fronte di errore FATAL
 
 
-Struttura per definire scene e oggetti
-	scene-node è il nodo principale, nn ha parent e quindi nn può essere child di altri nodi
-	i nodi mesh/light/camera possono avere come parent solo uno scene-node
-	aggiungere empty-node per una struttura più articolata ???
-
-
 Scripting:
 - build dello script e salvataggio opcode
 - caricare opcode + esecuzione nel loop dell'engine
@@ -33,7 +25,6 @@ Scripting:
 
 SceneManager:
  - carica la scena da file irrEdit/Coppercube
- - esegue scripts
  - gestisce interazioni
  - salva su/carica da file lo stato
 
@@ -53,6 +44,10 @@ Tutti gli elementi verranno creati utilizzando il sistema di scripting
 
 Il sistema di scripting avrà delle funzioni ben definite: GameStart, GameEnd, RepeatedlyExecute, enter_scene, leave_scene, ...
 
+Struttura della scena:
+	scene-node è il nodo principale, non ha parent e quindi non può essere child di altri nodi
+	i nodi mesh/light/camera possono avere come parent solo uno scene-node
+	aggiungere empty-node per una struttura più articolata ???
 
 
 
@@ -76,3 +71,6 @@ PugiXML 1.7 (http://pugixml.org/)
 [ok] Scene-Manager:
 		- scarica dalla memoria
 		- mostra a video la scena
+		- esegue scripts
+		- sistema per attivare/disattivare scena
+[ok] Creare interface SceneControl da cui derivare il controllo della scena e poi associare all'oggetto Scene

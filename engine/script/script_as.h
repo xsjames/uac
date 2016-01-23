@@ -44,7 +44,7 @@ class ScriptAS : public Common::IScript
 public:
 	ScriptAS()
 		: Common::IScript()
-		, _engine(0), _ctx(0), _active_scene(0)
+		, _engine(0), _ctx(0), _active_scene(0), _active_scene_ctrl(0)
 	{
 		for (int i = 0; i < Common::GlobalFunction_Max; ++i)
 			_global_functions[i] = 0;
@@ -65,14 +65,16 @@ public:
 
 
 	virtual void Execute_GlobalFunction(Common::ScriptGlobalFunctionIDs func_id);
-
 	// Execute the active scene functions
-	virtual void SetActiveScene(Common::INodeScene* scene) { _active_scene = scene; }
+	virtual void SetActiveScene(Common::INodeScene* scene);
 	virtual void Execute_SceneFunction(Common::ScriptSceneFunctionIDs func_id);
+	//
+	virtual void ReleaseScriptObjects() { ReleaseSceneControllers(); };
 
 
-	void AddSceneController(SceneController* ctrl) { _scenes_controllers.push_back(ctrl); }
-	SceneController* FindSceneController(Common::INodeScene* scene);
+	virtual void AddSceneController(SceneController* ctrl);
+	virtual SceneController* FindSceneController(Common::INodeScene* scene);
+	virtual void ReleaseSceneControllers();
 
 
 protected:
@@ -82,6 +84,7 @@ protected:
 	asIScriptFunction* _global_functions[Common::GlobalFunction_Max];
 
 	Common::INodeScene* _active_scene;
+	SceneController* _active_scene_ctrl;
 	std::vector<SceneController*> _scenes_controllers;	// Scenes controllers
 };
 

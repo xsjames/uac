@@ -86,9 +86,9 @@ INodeScene* SceneManagerIrr::CreateSceneNode(INodeScene* parent, const std::stri
 	}
 	//
 	node->SetNodeIrr(node_irr);
-
-	//TEMP
-	node->SetAmbientLight(node->GetAmbientLight()); //TEMP serve per settare ambient-light
+	
+	// sets ambient light in irr engine
+	node->SetAmbientLight(node->GetAmbientLight());
 
 	return node;
 }

@@ -195,8 +195,51 @@ void ScriptAS::Execute_GlobalFunction(ScriptGlobalFunctionIDs func_id)
 }
 
 
+void ScriptAS::SetActiveScene(Common::INodeScene* scene)
+{
+	_active_scene = scene;
+
+	for(std::vector<SceneController*>::iterator it = _scenes_controllers.begin(); it != _scenes_controllers.end(); ++it)
+	{
+		if((*it)->scene == _active_scene)
+		{
+			_active_scene_ctrl = *it;
+			return;
+		}
+	}
+	// not found
+	_active_scene_ctrl = 0;
+}
+
+
 void ScriptAS::Execute_SceneFunction(ScriptSceneFunctionIDs func_id)
 {
+	if(_active_scene_ctrl)
+	{
+		_ctx->Prepare(_active_scene_ctrl->functions[func_id]);
+		_ctx->SetObject(_active_scene_ctrl->scriptObj);
+		int r = _ctx->Execute();
+		if(r != asEXECUTION_FINISHED)
+		{
+			// The execution didn't complete as expected. Determine what happened.
+			if(r == asEXECUTION_EXCEPTION)
+			{
+				// An exception occurred, let the script writer know what happened so it can be corrected.
+				LOG(ERROR)("An exception occurred: %s", _ctx->GetExceptionString());
+			}
+		}
+	}
+}
+
+
+void ScriptAS::AddSceneController(SceneController* ctrl)
+{
+	_scenes_controllers.push_back(ctrl);
+	// this is the control for the currently active scene
+	if(ctrl->scene == _active_scene)
+	{
+		_active_scene_ctrl = ctrl;
+	}
 }
 
 
@@ -209,6 +252,15 @@ SceneController* ScriptAS::FindSceneController(Common::INodeScene* scene)
 	}
 
 	return 0;
+}
+
+
+void ScriptAS::ReleaseSceneControllers()
+{
+	for(std::vector<SceneController*>::iterator it = _scenes_controllers.begin(); it != _scenes_controllers.end(); ++it)
+	{
+		(*it)->scriptObj->Release();
+	}
 }
 
 

@@ -54,6 +54,7 @@ int engine_run_game()
 	//TEMP
 	while(g_pDevice->Run())
 	{
+		g_pScripting->Execute_SceneFunction(Scene_RepeatedlyExecute);
 		g_pScripting->Execute_GlobalFunction(Global_RepeatedlyExecute);
 
 		g_pSceneManager->Update();
@@ -190,6 +191,9 @@ int StartEngine()
 
 	engine_run_game();
 
+	LOG(INFO)("Release script objects");
+	g_pScripting->ReleaseScriptObjects();
+	
 	return RETURN_CONTINUE;
 }
 

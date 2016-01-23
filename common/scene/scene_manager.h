@@ -42,6 +42,9 @@ public:
 	//! Adds a scene to the manager.
 	virtual void Add(INodeScene* scene);
 
+	//! Returns the number of scenes.
+	virtual size_t CountScenes() const { return _scenes.size();  }
+
 	//! Removes the given scene from the scene manager.
 	virtual void Remove(INodeScene* scene);
 	
@@ -59,7 +62,7 @@ public:
 
 
 	//! Set the active scene.
-	virtual void SetActive(INodeScene* scene);
+	virtual void SetActiveScene(INodeScene* scene);
 
 	//! Update the active scene.
 	virtual void Update() = 0;

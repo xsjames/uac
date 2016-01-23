@@ -84,7 +84,7 @@ void ISceneManager::RemoveAll()
 }
 
 
-void ISceneManager::SetActive(INodeScene* scene)
+void ISceneManager::SetActiveScene(INodeScene* scene)
 {
 	if(_current == scene)
 		return;
@@ -205,22 +205,8 @@ void ISceneManager::Render()
 	for (std::vector<INode*>::iterator it = _scenes.begin(); it != _scenes.end(); ++it)
 		(*it)->Render();
 
-	//TEMP
 	if(_gfxdriver)
 		_gfxdriver->Render();
-}
-
-//TEMP - rimuovere
-int cc = 0;
-bool ISceneManager::Run()
-{
-	return ++cc < 100;
-}
-
-bool ISceneManager::isWindowActive()
-{
-	//TEMP
-	return true;
 }
 
 void ISceneManager::OnSwitchComplete(CTween* pTween)

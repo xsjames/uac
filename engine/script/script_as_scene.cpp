@@ -35,6 +35,11 @@ static INodeScene* Scene_Factory(const std::string& scriptname)
 	LOG(DEBUG)("Scene_Factory");
 	INodeScene* node = g_pSceneManager->CreateSceneNode(0, scriptname);
 	g_pSceneManager->Add(node);
+
+	// if first scene init the script system
+	if(g_pSceneManager->CountScenes() == 1)
+		g_pScripting->SetActiveScene(node);
+
 	return node;
 }
 
@@ -99,15 +104,6 @@ void Scene_SetController(asIScriptObject* scriptObj, INodeScene* obj)
 	ctrl->functions[Scene_RepeatedlyExecute] = ot->GetMethodByName("RepeatedlyExecute");
 
 	((ScriptAS*)g_pScripting)->AddSceneController(ctrl);
-	//TEMP
-	/*
-	asIScriptContext* _ctx;
-	_ctx = scriptObj->GetEngine()->CreateContext();
-	_ctx->Prepare(func);
-	_ctx->SetObject(scriptObj);
-	int r = _ctx->Execute();
-	_ctx->Release();
-	*/
 }
 
 asIScriptObject* Scene_GetController(INodeScene* obj)

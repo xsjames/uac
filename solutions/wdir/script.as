@@ -7,6 +7,9 @@ class MyClass : ISceneController
 		_name = name;
 		Print(_name);
 		Print(" - ctor\n");
+		
+		x = 0;
+		state = 0;
 	}
 	~MyClass()
 	{
@@ -28,11 +31,33 @@ class MyClass : ISceneController
 	
 	void RepeatedlyExecute()
 	{
+		if(state == 0)
+		{
+			x = x + 1;
+			if(x >= 100)
+			{
+				state = 1;
+			}
+		}
+		else
+		{
+			x = x - 1;
+			if(x <= 0)
+			{
+				state = 0;
+			}
+		}
+		
+		tent.SetPosition(47 - x/5,0,2);
+		/*
 		Print(_name);
 		Print(" - do something\n");
+		*/
 	}
 	
 	string _name;
+	int x;
+	int state;
 }
 
 
@@ -54,10 +79,9 @@ int state = 1;
 void GameStart()
 {
 	/* Scene1 */
-/*
 	MyClass ctrl("[CONTROLLER]");
 	scene1.SetController(ctrl);
-*/
+
 	tent.SetPosition(47,0,2);
 	tent.SetScale(0.7,0.7,0.7);
 	
